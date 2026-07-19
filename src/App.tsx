@@ -321,7 +321,7 @@ export default function App() {
   }, [gearList]);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#faf9f6] via-[#f5ede0] to-[#eae0cc] p-1 md:p-4 lg:p-6 flex flex-col items-center justify-start select-none">
+    <div className="relative h-[100dvh] w-full overflow-hidden bg-gradient-to-br from-[#faf9f6] via-[#f5ede0] to-[#eae0cc] p-1 md:p-4 lg:p-6 flex flex-col items-center justify-center select-none">
       
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#f4f7f3]/85 backdrop-blur-sm">
@@ -540,7 +540,7 @@ export default function App() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="w-full max-w-[95%] 2xl:max-w-[82%] rounded-2xl border-x-[12px] border-t-[12px] border-b-[24px] border-[#cbd5c8] bg-[#e3eae1] shadow-[0_25px_65px_rgba(110,130,110,0.18)] relative overflow-hidden z-10 flex-1 flex flex-col min-h-0 mb-4 lg:mb-6"
+        className="w-full h-full flex flex-col flex-1 min-h-0 max-w-full md:max-w-[95%] 2xl:max-w-[82%] rounded-xl md:rounded-2xl border-[6px] md:border-x-[12px] md:border-t-[12px] md:border-b-[24px] border-[#cbd5c8] bg-[#e3eae1] shadow-2xl relative overflow-hidden z-10"
         id="app-monitor-container"
       >
         {/* Monitor Gloss reflection overlay (retro desktop monitor look) */}
@@ -549,7 +549,7 @@ export default function App() {
         {/* ============================================================== */}
         {/* INNER CONTAINER (COARSE DARK ALUMINUM FRAME FINISH) */}
         {/* ============================================================== */}
-        <div className="p-3 md:p-6 bg-[#f4f7f3] flex-1 flex flex-col min-h-0 overflow-hidden gap-6 text-stone-800 border border-[#cbd5c8]">
+        <div className="p-2 md:p-6 bg-[#f4f7f3] w-full h-full flex flex-col flex-1 min-h-0 gap-3 md:gap-6 text-stone-800 border border-[#cbd5c8] overflow-hidden">
           
           {/* 1. APPLET TITLE BAR */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b-2 border-[#cbd5c8] shrink-0">
@@ -877,7 +877,7 @@ export default function App() {
           {/* ============================================================== */}
           {/* 2. FULL GEAR LIST (IVORY/WHITE CANVAS AND ROPE DIVIDERS) */}
           {/* ============================================================== */}
-          <div className="flex-1 overflow-hidden border border-[#cbd5c8] rounded-2xl shadow-sm flex flex-col bg-white">
+          <div className="flex-1 flex flex-col min-h-0 overflow-hidden border border-[#cbd5c8] rounded-xl shadow-sm bg-white">
             
             {/* List Info Bar */}
             <div className="px-5 py-3 bg-[#f8faf7] border-b border-[#cbd5c8] text-xs flex justify-between items-center flex-wrap gap-2 text-stone-600 shrink-0">
@@ -901,7 +901,7 @@ export default function App() {
             </div>
 
             {/* Desktop Table Wrapper */}
-            <div className="flex-1 overflow-auto min-h-0">
+            <div className="flex-1 overflow-y-auto overflow-x-auto min-h-0">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 
                 {/* Table Header - Clean Sage Ivory look */}
