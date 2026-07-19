@@ -321,7 +321,7 @@ export default function App() {
   }, [gearList]);
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-[#faf9f6] via-[#f5ede0] to-[#eae0cc] p-1 md:p-4 lg:p-6 flex flex-col items-center justify-start select-none">
+    <div className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#faf9f6] via-[#f5ede0] to-[#eae0cc] p-1 md:p-4 lg:p-6 flex flex-col items-center justify-start select-none">
       
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#f4f7f3]/85 backdrop-blur-sm">
@@ -540,7 +540,7 @@ export default function App() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="w-full max-w-[95%] 2xl:max-w-[82%] rounded-2xl border-x-[12px] border-t-[12px] border-b-[24px] border-[#cbd5c8] bg-[#e3eae1] shadow-[0_25px_65px_rgba(110,130,110,0.18)] relative overflow-hidden z-10 flex-1 flex flex-col mb-4 lg:mb-6"
+        className="w-full max-w-[95%] 2xl:max-w-[82%] rounded-2xl border-x-[12px] border-t-[12px] border-b-[24px] border-[#cbd5c8] bg-[#e3eae1] shadow-[0_25px_65px_rgba(110,130,110,0.18)] relative overflow-hidden z-10 flex-1 flex flex-col min-h-0 mb-4 lg:mb-6"
         id="app-monitor-container"
       >
         {/* Monitor Gloss reflection overlay (retro desktop monitor look) */}
@@ -549,10 +549,10 @@ export default function App() {
         {/* ============================================================== */}
         {/* INNER CONTAINER (COARSE DARK ALUMINUM FRAME FINISH) */}
         {/* ============================================================== */}
-        <div className="p-3 md:p-6 bg-[#f4f7f3] flex-1 flex flex-col gap-6 text-stone-800 border border-[#cbd5c8]">
+        <div className="p-3 md:p-6 bg-[#f4f7f3] flex-1 flex flex-col min-h-0 overflow-hidden gap-6 text-stone-800 border border-[#cbd5c8]">
           
           {/* 1. APPLET TITLE BAR */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b-2 border-[#cbd5c8]">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b-2 border-[#cbd5c8] shrink-0">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-[#5aa880] text-white shadow-sm border border-[#488e6a]">
                 <Tent className="w-7 h-7" />
@@ -587,7 +587,7 @@ export default function App() {
           {/* ============================================================== */}
           {/* 1. CATEGORY SUMMARY CARDS (PASTEL FABRIC PATCHES) */}
           {/* ============================================================== */}
-          <div>
+          <div className="shrink-0">
             <h2 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3 font-mono flex items-center gap-1.5">
               <span>카테고리 요약 정보</span>
               <span className="h-px bg-stone-200 flex-1"></span>
@@ -715,7 +715,7 @@ export default function App() {
           {/* ============================================================== */}
           {/* TOOLBAR: SEARCH & FILTERS AND MANAGEMENT BUTTONS */}
           {/* ============================================================== */}
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-3.5 bg-white/95 border border-[#cbd5c8] rounded-2xl shadow-sm">
+          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-3.5 bg-white/95 border border-[#cbd5c8] rounded-2xl shadow-sm shrink-0">
             
             {/* Search and Filters */}
             <div className="flex flex-wrap items-center gap-2.5 flex-1">
@@ -880,7 +880,7 @@ export default function App() {
           <div className="flex-1 overflow-hidden border border-[#cbd5c8] rounded-2xl shadow-sm flex flex-col bg-white">
             
             {/* List Info Bar */}
-            <div className="px-5 py-3 bg-[#f8faf7] border-b border-[#cbd5c8] text-xs flex justify-between items-center flex-wrap gap-2 text-stone-600">
+            <div className="px-5 py-3 bg-[#f8faf7] border-b border-[#cbd5c8] text-xs flex justify-between items-center flex-wrap gap-2 text-stone-600 shrink-0">
               <div className="flex items-center gap-2 font-sans font-medium">
                 <span className="w-2 h-2 rounded-full bg-[#5aa880]"></span>
                 <span>
@@ -901,12 +901,12 @@ export default function App() {
             </div>
 
             {/* Desktop Table Wrapper */}
-            <div className="flex-1 overflow-auto min-h-0">
+            <div className="flex-1 overflow-y-auto min-h-0">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 
                 {/* Table Header - Clean Sage Ivory look */}
                 <thead>
-                  <tr className="bg-[#eef3ec] text-[#4a6648] text-xs font-bold uppercase tracking-wider font-sans border-b border-[#cbd5c8]">
+                  <tr className="bg-[#eef3ec] text-[#4a6648] text-xs font-bold uppercase tracking-wider font-sans border-b border-[#cbd5c8] sticky top-0 z-10 shadow-sm">
                     <th className="py-3.5 px-4 w-12 text-center">
                       <button
                         onClick={toggleSelectAll}
@@ -1092,7 +1092,7 @@ export default function App() {
             </div>
 
             {/* List Footer / Table Controls */}
-            <div className="p-3 bg-khaki-900 border-t border-khaki-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-khaki-400">
+            <div className="p-3 bg-khaki-900 border-t border-khaki-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-khaki-400 shrink-0">
               <p className="font-sans">
                 현재 대장에 등록된 품목수: <strong className="text-white">{filteredGear.length}</strong> / 전체 <strong className="text-white">{gearList.length}</strong>개
               </p>
