@@ -558,7 +558,7 @@ export default function App() {
                 <Tent className="w-7 h-7" />
               </div>
               <div>
-                <h1 className="font-sans font-black text-2xl tracking-tight text-stone-900 flex items-center gap-2">
+                <h1 className="font-sans font-black text-xl md:text-2xl tracking-tight text-stone-900 flex items-center gap-2 break-keep">
                   캠핑장비 관리 시스템
                   <span className="text-[10px] bg-[#e6ece4] text-[#4a6648] border border-[#cbd5c8] px-2 py-0.5 rounded-full font-mono font-bold">
                     v3.0.0
@@ -594,7 +594,7 @@ export default function App() {
               <span className="text-[10px] text-emerald-700 font-bold lowercase"></span>
             </h2>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-3">
+            <div className="flex overflow-x-auto pb-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-3">
               {summaries.map((sum) => {
                 const isActive = categoryFilter === sum.id;
                 
@@ -669,7 +669,7 @@ export default function App() {
                     whileHover={{ y: -3, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setCategoryFilter(isActive ? 'all' : sum.id)}
-                    className={`cursor-pointer transition-all duration-300 rounded-xl relative p-0.5 overflow-hidden shadow-sm ${
+                    className={`cursor-pointer transition-all duration-300 rounded-xl relative p-0.5 overflow-hidden shadow-sm min-w-[140px] md:min-w-0 snap-center shrink-0 ${
                       isActive 
                         ? 'ring-2 ring-[#5aa880] scale-[1.02] shadow-md' 
                         : 'hover:shadow-md'
@@ -803,7 +803,7 @@ export default function App() {
             {/* ============================================================== */}
             {/* 3. MANAGEMENT BUTTONS (ROUNDED PASTEL DESIGN) */}
             {/* ============================================================== */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center justify-start lg:justify-end gap-2 w-full lg:w-auto">
               {/* 신규등록 */}
               <button
                 onClick={handleAddNew}
@@ -901,7 +901,7 @@ export default function App() {
             </div>
 
             {/* Desktop Table Wrapper */}
-            <div className="flex-1 overflow-y-auto min-h-0">
+            <div className="flex-1 overflow-auto min-h-0">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 
                 {/* Table Header - Clean Sage Ivory look */}

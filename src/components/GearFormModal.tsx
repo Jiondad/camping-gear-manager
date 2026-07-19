@@ -106,10 +106,10 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="w-full max-w-lg overflow-hidden border-2 border-[#cbd5c8] rounded-2xl bg-[#f4f7f3] shadow-2xl text-stone-800"
+        className="w-full max-w-lg max-h-[90vh] overflow-hidden border-2 border-[#cbd5c8] rounded-2xl bg-[#f4f7f3] shadow-2xl text-stone-800 flex flex-col"
       >
         {/* Header - Sage Ivory look */}
-        <div className="flex items-center justify-between px-6 py-4 bg-[#eef3ec] border-b border-[#cbd5c8] text-[#4a6648]">
+        <div className="flex items-center justify-between px-6 py-4 bg-[#eef3ec] border-b border-[#cbd5c8] text-[#4a6648] shrink-0">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-[#5aa880] animate-pulse"></span>
             <h3 className="font-sans font-black text-lg tracking-tight">
@@ -125,7 +125,7 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto flex-1">
           {error && (
             <div className="p-3 text-sm text-red-950 bg-red-50 rounded-lg border border-red-200 font-bold">
               ⚠️ {error}
@@ -137,7 +137,7 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
             <label className="block text-xs font-black text-[#4a6648] uppercase tracking-wider mb-2 font-mono">
               Category / 장비 카테고리
             </label>
-            <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
+            <div className="grid grid-cols-4 md:grid-cols-7 gap-1">
               {categoryOptions.map((opt) => (
                 <button
                   key={opt.value}
