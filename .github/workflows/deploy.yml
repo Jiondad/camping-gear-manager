@@ -1,7 +1,7 @@
 name: Deploy to GitHub Pages
 
 on:
-  # main 브랜치에 코드가 push 될 때마다 실행 (본인 브랜치명이 master라면 master로 변경)
+  # main 브랜치에 코드가 push 될 때마다 실행
   push:
     branches: ['main']
 
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-- name: Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -43,7 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Vite 빌드 결과물이 생성되는 폴더
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
