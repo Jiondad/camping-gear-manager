@@ -5,6 +5,8 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // 💡 아래 base 속성을 본인의 GitHub 저장소 이름으로 추가하세요.
+    base: '/camping-gear-manager/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
