@@ -1,0 +1,6 @@
+{
+  "name": "캠핑 장비 관리 대장",
+  "description": "어반 캠핑 스타일의 고급스럽고 체계적인 캠핑 장비 관리 시스템",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
