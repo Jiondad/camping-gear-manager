@@ -41,206 +41,7 @@ const categoryLabels: Record<GearCategory, string> = {
   etc: '소품/기타',
 };
 
-const DEFAULT_GEAR: GearItem[] = [
-  {
-    id: 'g1',
-    name: "고스트 플러스 거실형 터널 텐트",
-    brand: "코베아",
-    model: "630x315x205cm",
-    quantity: 1,
-    weight: 20.5,
-    price: 1150000,
-    status: "보유",
-    category: 'tent'
-  },
-  {
-    id: 'g2',
-    name: "어메니티 돔 M",
-    brand: "스노우피크",
-    model: "505x280x150cm",
-    quantity: 1,
-    weight: 8.0,
-    price: 540000,
-    status: "보유",
-    category: 'tent'
-  },
-  {
-    id: 'g3',
-    name: "몽가 2 초경량 백패킹 텐트",
-    brand: "네이처하이크",
-    model: "210x125x100cm",
-    quantity: 2,
-    weight: 1.8,
-    price: 145000,
-    status: "보유",
-    category: 'tent'
-  },
-  {
-    id: 'g4',
-    name: "페더다운 800G 시그니처 구스 침낭",
-    brand: "페더다운",
-    model: "오렌지 / 800g 우모",
-    quantity: 2,
-    weight: 1.3,
-    price: 320000,
-    status: "보유",
-    category: 'bedding'
-  },
-  {
-    id: 'g5',
-    name: "릴랙스 캠핑 자바 에어매트",
-    brand: "콜맨",
-    model: "200x140x10cm",
-    quantity: 2,
-    weight: 4.2,
-    price: 120000,
-    status: "보유",
-    category: 'bedding'
-  },
-  {
-    id: 'g6',
-    name: "코트원 컨버터블 야전침대",
-    brand: "헬리녹스",
-    model: "190x68x16cm",
-    quantity: 4,
-    weight: 2.3,
-    price: 390000,
-    status: "보유",
-    category: 'bedding'
-  },
-  {
-    id: 'g7',
-    name: "구이바다 3Way 올인원 M",
-    brand: "코베아",
-    model: "KGR-3500",
-    quantity: 1,
-    weight: 3.5,
-    price: 135000,
-    status: "보유",
-    category: 'cooking'
-  },
-  {
-    id: 'g8',
-    name: "윈드마스터 초경량 버너",
-    brand: "소토",
-    model: "SOD-310",
-    quantity: 2,
-    weight: 0.06,
-    price: 95000,
-    status: "보유",
-    category: 'cooking'
-  },
-  {
-    id: 'g9',
-    name: "티타늄 개인 식기 4세트",
-    brand: "스노우피크",
-    model: "TW-021F",
-    quantity: 4,
-    weight: 0.4,
-    price: 110000,
-    status: "보유",
-    category: 'cooking'
-  },
-  {
-    id: 'g10',
-    name: "54QT 스틸 벨트 쿨러 (아이스박스)",
-    brand: "콜맨",
-    model: "51L 대용량",
-    quantity: 1,
-    weight: 7.5,
-    price: 240000,
-    status: "매각",
-    category: 'cooking'
-  },
-  {
-    id: 'g11',
-    name: "캠핑용 스테인리스 쿠커 세트",
-    brand: "벨락",
-    model: "S9 프리미엄 코펠",
-    quantity: 1,
-    weight: 3.2,
-    price: 180000,
-    status: "보유",
-    category: 'cooking'
-  },
-  {
-    id: 'g12',
-    name: "울트라 3G L 초강력 LED 랜턴",
-    brand: "크레모아",
-    model: "CL-1900",
-    quantity: 1,
-    weight: 0.54,
-    price: 159000,
-    status: "보유",
-    category: 'lighting'
-  },
-  {
-    id: 'g13',
-    name: "비콘 카라비너 LED 랜턴",
-    brand: "베어본즈",
-    model: "앤티크 브론즈",
-    quantity: 3,
-    weight: 0.12,
-    price: 65000,
-    status: "보유",
-    category: 'lighting'
-  },
-  {
-    id: 'g14',
-    name: "골제로 라이트하우스 마이크로",
-    brand: "골제로",
-    model: "Flash 150Lm",
-    quantity: 2,
-    weight: 0.07,
-    price: 49000,
-    status: "보유",
-    category: 'lighting'
-  },
-  {
-    id: 'g15',
-    name: "체어원 오리지널 경량체어",
-    brand: "헬리녹스",
-    model: "52x50x65cm",
-    quantity: 4,
-    weight: 0.89,
-    price: 125000,
-    status: "보유",
-    category: 'etc'
-  },
-  {
-    id: 'g16',
-    name: "아웃도어 우드 롤테이블",
-    brand: "몬테라",
-    model: "M사이즈 90x60cm",
-    quantity: 1,
-    weight: 5.1,
-    price: 145000,
-    status: "보유",
-    category: 'etc'
-  },
-  {
-    id: 'g17',
-    name: "클래식 1.9L 진공 보온병",
-    brand: "스탠리",
-    model: "해머톤 그린",
-    quantity: 1,
-    weight: 0.99,
-    price: 59000,
-    status: "보유",
-    category: 'etc'
-  },
-  {
-    id: 'g18',
-    name: "캠핑용 헤비듀티 카고박스 50L",
-    brand: "토르",
-    model: "THOR-50",
-    quantity: 2,
-    weight: 2.5,
-    price: 380000,
-    status: "폐기",
-    category: 'etc'
-  }
-];
+const DEFAULT_GEAR: GearItem[] = [];
 
 const API_URL = "https://script.google.com/macros/s/AKfycbzO_rRc9-MaJRxWLIHHEql1ELwjZ0qysTAWbp4K3oXrGH-z3j6HM4hBccdbE_DI1--n/exec";
 
@@ -446,6 +247,16 @@ export default function App() {
       syncWithBackend(DEFAULT_GEAR);
       setSelectedIds([]);
       triggerToast('초기 대장 데이터로 복구되었습니다.', 'info');
+    }
+  };
+
+  const handleDeleteItem = (id: string) => {
+    if (window.confirm('이 장비를 목록에서 완전히 삭제하시겠습니까?')) {
+      const updatedList = gearList.filter(item => item.id !== id);
+      setGearList(updatedList);
+      syncWithBackend(updatedList);
+      triggerToast('선택한 장비가 목록에서 완전히 삭제되었습니다.', 'success');
+      setSelectedIds(prev => prev.filter(selectedId => selectedId !== id));
     }
   };
 
@@ -719,13 +530,13 @@ export default function App() {
               </div>
               <div>
                 <h1 className="font-sans font-black text-2xl tracking-tight text-stone-900 flex items-center gap-2">
-                  캠핑장비 감성 관리 대장
+                  캠핑장비 관리 시스템
                   <span className="text-[10px] bg-[#e6ece4] text-[#4a6648] border border-[#cbd5c8] px-2 py-0.5 rounded-full font-mono font-bold">
                     v3.0.0
                   </span>
                 </h1>
                 <p className="text-xs text-stone-500 mt-0.5 font-sans">
-                  봄날의 감성 글램핑 — 캠핑 필수 장비 디지털 파스텔 장부 및 관리 엔진
+                  Springtime Aesthetic Glamping — Digital Pastel Ledger & Gear Management Engine
                 </p>
               </div>
             </div>
@@ -1072,6 +883,7 @@ export default function App() {
                     <th className="py-3.5 px-4 w-24 text-center">중량(kg)</th>
                     <th className="py-3.5 px-4 w-36 text-right">구입금액(₩)</th>
                     <th className="py-3.5 px-4 w-32 text-center">상태</th>
+                    <th className="py-3.5 px-4 w-20 text-center">관리</th>
                   </tr>
                 </thead>
 
@@ -1179,8 +991,35 @@ export default function App() {
                             </div>
                           </td>
 
+                          {/* Manage Column - Edit & Delete Buttons */}
+                          <td className="py-3 px-4 text-center">
+                            <div className="flex items-center justify-center gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditItem(item);
+                                  setIsFormOpen(true);
+                                }}
+                                title="수정"
+                                className="p-1 rounded hover:bg-stone-100 transition-colors"
+                              >
+                                <Pencil className="w-3.5 h-3.5 text-stone-400 hover:text-[#f3b05a] transition-colors" />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteItem(item.id);
+                                }}
+                                title="삭제"
+                                className="p-1 rounded hover:bg-stone-100 transition-colors"
+                              >
+                                <Trash2 className="w-3.5 h-3.5 text-stone-400 hover:text-rose-500 transition-colors" />
+                              </button>
+                            </div>
+                          </td>
+
                           {/* ROPE PATTERN LINE FOR EACH DIVIDER ROW (Custom style in index.css) */}
-                          <td colSpan={9} className="absolute bottom-0 left-0 right-0 h-px p-0 pointer-events-none">
+                          <td colSpan={10} className="absolute bottom-0 left-0 right-0 h-px p-0 pointer-events-none">
                             <div className="rope-line w-full" />
                           </td>
                         </tr>
@@ -1188,7 +1027,7 @@ export default function App() {
                     })
                   ) : (
                     <tr>
-                      <td colSpan={9} className="py-12 text-center bg-white">
+                      <td colSpan={10} className="py-12 text-center bg-white">
                         <div className="flex flex-col items-center justify-center p-4">
                           <Info className="w-10 h-10 text-stone-300 mb-2" />
                           <p className="font-hand text-lg text-stone-600 font-bold">
