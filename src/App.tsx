@@ -28,7 +28,9 @@ import {
   Info,
   Calendar,
   Layers,
-  Award
+  Award,
+  Armchair,
+  ThermometerSun
 } from 'lucide-react';
 import { GearItem, GearCategory, CategorySummary } from './types';
 import GearFormModal from './components/GearFormModal';
@@ -36,8 +38,10 @@ import GearFormModal from './components/GearFormModal';
 const categoryLabels: Record<GearCategory, string> = {
   tent: '텐트/타프',
   bedding: '침구류',
-  cooking: '취사도구',
+  furniture: '테이블/체어',
   lighting: '랜턴/조명',
+  cooking: '버너/그릴',
+  seasonal: '계절장비',
   etc: '소품/기타',
 };
 
@@ -121,15 +125,22 @@ export default function App() {
 
   // Categories summaries derived from dynamic gearList (active '보유' items count as described)
   const summaries = useMemo<CategorySummary[]>(() => {
-    const getSummary = (cat: GearCategory, name: string, label: string, iconName: 'tent' | 'bedding' | 'cooking' | 'lighting' | 'etc'): CategorySummary => {
+    const getSummary = (
+      cat: GearCategory, 
+      name: string, 
+      label: string, 
+      iconName: 'tent' | 'bedding' | 'furniture' | 'lighting' | 'cooking' | 'seasonal' | 'etc'
+    ): CategorySummary => {
       const filtered = gearList.filter(item => item.category === cat && item.status === '보유');
       const totalQuantity = filtered.reduce((acc, curr) => acc + curr.quantity, 0);
       
       let countText = '';
       if (cat === 'tent') countText = `텐트/타프 ${totalQuantity}개`;
       else if (cat === 'bedding') countText = `침구류 ${totalQuantity}개`;
-      else if (cat === 'cooking') countText = `취사도구 ${totalQuantity}개`;
+      else if (cat === 'furniture') countText = `테이블/체어 ${totalQuantity}개`;
       else if (cat === 'lighting') countText = `랜턴/조명 ${totalQuantity}개`;
+      else if (cat === 'cooking') countText = `버너/그릴 ${totalQuantity}개`;
+      else if (cat === 'seasonal') countText = `계절장비 ${totalQuantity}개`;
       else countText = `소품/기타 ${totalQuantity}개`;
 
       return { id: cat, name, label, iconName, countText, totalQuantity };
@@ -138,15 +149,18 @@ export default function App() {
     return [
       getSummary('tent', 'Tents', '텐트/타프', 'tent'),
       getSummary('bedding', 'Bedding', '침구류', 'bedding'),
-      getSummary('cooking', 'Cooking', '취사도구', 'cooking'),
+      getSummary('furniture', 'Furniture', '테이블/체어', 'furniture'),
       getSummary('lighting', 'Lighting', '랜턴/조명', 'lighting'),
+      getSummary('cooking', 'Cooking', '버너/그릴', 'cooking'),
+      getSummary('seasonal', 'Seasonal', '계절장비', 'seasonal'),
       getSummary('etc', 'Gear', '소품/기타', 'etc'),
     ];
   }, [gearList]);
 
   // Filtering list
   const filteredGear = useMemo(() => {
-    return gearList.filter(item => {
+    const categoryOrder: GearCategory[] = ['tent', 'bedding', 'furniture', 'lighting', 'cooking', 'seasonal', 'etc'];
+    const filtered = gearList.filter(item => {
       const matchSearch =
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -156,6 +170,15 @@ export default function App() {
       const matchStatus = statusFilter === 'all' || item.status === statusFilter;
 
       return matchSearch && matchCat && matchStatus;
+    });
+
+    return [...filtered].sort((a, b) => {
+      const orderA = categoryOrder.indexOf(a.category);
+      const orderB = categoryOrder.indexOf(b.category);
+      if (orderA !== orderB) {
+        return orderA - orderB;
+      }
+      return b.price - a.price; // 내림차순
     });
   }, [gearList, searchTerm, categoryFilter, statusFilter]);
 
@@ -276,8 +299,10 @@ export default function App() {
     switch (iconName) {
       case 'tent': return <Tent className={className} />;
       case 'bedding': return <Bed className={className} />;
-      case 'cooking': return <Flame className={className} />;
+      case 'furniture': return <Armchair className={className} />;
       case 'lighting': return <Lightbulb className={className} />;
+      case 'cooking': return <Flame className={className} />;
+      case 'seasonal': return <ThermometerSun className={className} />;
       default: return <Package className={className} />;
     }
   };
@@ -569,7 +594,7 @@ export default function App() {
               <span className="text-[10px] text-emerald-700 font-bold lowercase"></span>
             </h2>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-3">
               {summaries.map((sum) => {
                 const isActive = categoryFilter === sum.id;
                 
@@ -592,6 +617,14 @@ export default function App() {
                       iconText: "text-rose-700",
                       countText: "text-rose-700"
                     },
+                    furniture: {
+                      bg: "from-[#fdf8f5] via-[#f7eae1] to-[#f0ded3]",
+                      border: "border-[#ddc4b4]",
+                      text: "text-amber-950",
+                      iconBg: "bg-[#f5e3d7]",
+                      iconText: "text-amber-800",
+                      countText: "text-amber-800"
+                    },
                     cooking: {
                       bg: "from-[#fef9e7] via-[#fdf2cc] to-[#faeab1]",
                       border: "border-[#e9cc72]",
@@ -607,6 +640,14 @@ export default function App() {
                       iconBg: "bg-[#cfe7fa]",
                       iconText: "text-sky-700",
                       countText: "text-sky-700"
+                    },
+                    seasonal: {
+                      bg: "from-[#f4faf8] via-[#e5f5f0] to-[#daf0ea]",
+                      border: "border-[#addbd0]",
+                      text: "text-teal-950",
+                      iconBg: "bg-[#cfebe3]",
+                      iconText: "text-teal-800",
+                      countText: "text-teal-800"
                     },
                     etc: {
                       bg: "from-[#f3f0fd] via-[#e6dffd] to-[#d4ceff]",
@@ -901,8 +942,10 @@ export default function App() {
                         const styles: Record<string, string> = {
                           tent: "bg-[#eef7f4] border-[#bfe3d5] text-emerald-800",
                           bedding: "bg-[#fdf2f0] border-[#fbc9bf] text-rose-800",
+                          furniture: "bg-[#fdf8f5] border-[#f0ded3] text-amber-900",
                           cooking: "bg-[#fef9e7] border-[#fae5a4] text-amber-800",
                           lighting: "bg-[#e8f4fd] border-[#c0e0fc] text-sky-800",
+                          seasonal: "bg-[#f4faf8] border-[#daf0ea] text-teal-800",
                           etc: "bg-[#f3f0fd] border-[#dfd7fe] text-indigo-800"
                         };
                         return styles[cat] || styles.etc;

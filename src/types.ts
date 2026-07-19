@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type GearCategory = 'tent' | 'bedding' | 'cooking' | 'lighting' | 'etc';
+export type GearCategory = 'tent' | 'bedding' | 'furniture' | 'lighting' | 'cooking' | 'seasonal' | 'etc';
 
 export interface GearItem {
   id: string;
@@ -21,7 +21,7 @@ export interface CategorySummary {
   id: GearCategory;
   name: string;
   label: string;
-  iconName: 'tent' | 'bedding' | 'cooking' | 'lighting' | 'etc';
+  iconName: 'tent' | 'bedding' | 'furniture' | 'lighting' | 'cooking' | 'seasonal' | 'etc';
   countText: string;
   totalQuantity: number;
 }

@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, Tent, Bed, Flame, Lightbulb, Package, Save, RotateCcw } from 'lucide-react';
+import { X, Tent, Bed, Flame, Lightbulb, Package, Save, RotateCcw, Armchair, ThermometerSun } from 'lucide-react';
 import { GearItem, GearCategory } from '../types';
 
 interface GearFormModalProps {
@@ -92,8 +92,10 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
   const categoryOptions: { value: GearCategory; label: string; icon: React.ReactNode }[] = [
     { value: 'tent', label: '텐트/타프', icon: <Tent className="w-4 h-4" /> },
     { value: 'bedding', label: '침구류', icon: <Bed className="w-4 h-4" /> },
-    { value: 'cooking', label: '취사도구', icon: <Flame className="w-4 h-4" /> },
+    { value: 'furniture', label: '테이블/체어', icon: <Armchair className="w-4 h-4" /> },
     { value: 'lighting', label: '랜턴/조명', icon: <Lightbulb className="w-4 h-4" /> },
+    { value: 'cooking', label: '버너/그릴', icon: <Flame className="w-4 h-4" /> },
+    { value: 'seasonal', label: '계절장비', icon: <ThermometerSun className="w-4 h-4" /> },
     { value: 'etc', label: '소품/기타', icon: <Package className="w-4 h-4" /> },
   ];
 
@@ -135,7 +137,7 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
             <label className="block text-xs font-black text-[#4a6648] uppercase tracking-wider mb-2 font-mono">
               Category / 장비 카테고리
             </label>
-            <div className="grid grid-cols-5 gap-1">
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
               {categoryOptions.map((opt) => (
                 <button
                   key={opt.value}
@@ -148,7 +150,16 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
                   }`}
                 >
                   {opt.icon}
-                  <span className="text-[10px] mt-1 font-sans">{opt.label}</span>
+                  <span className="text-[9.5px] sm:text-[10px] mt-1 font-sans leading-tight break-keep">
+                    {opt.label.includes('/') ? (
+                      <>
+                        {opt.label.split('/')[0]}/<br />
+                        {opt.label.split('/')[1]}
+                      </>
+                    ) : (
+                      opt.label
+                    )}
+                  </span>
                 </button>
               ))}
             </div>
