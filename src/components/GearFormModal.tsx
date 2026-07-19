@@ -42,9 +42,9 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
       setName('');
       setBrand('');
       setModel('');
-      setQuantity(1);
-      setWeight(0.5);
-      setPrice(10000);
+      setQuantity(0);
+      setWeight(0);
+      setPrice(0);
       setStatus('보유');
     }
     setError('');
@@ -62,8 +62,8 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
       setError('브랜드/제조사를 입력해주세요.');
       return;
     }
-    if (quantity <= 0) {
-      setError('수량은 1개 이상이어야 합니다.');
+    if (quantity < 0) {
+      setError('수량은 0개 이상이어야 합니다.');
       return;
     }
     if (weight < 0) {
@@ -199,39 +199,39 @@ export default function GearFormModal({ isOpen, onClose, onSave, editItem }: Gea
           {/* Quantity, Weight, Price */}
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-black text-[#4a6648] uppercase tracking-wider mb-1 font-mono">
+              <label className="block text-xs font-black text-[#4a6648] uppercase tracking-tight mb-1 font-mono whitespace-nowrap">
                 Quantity / 수량
               </label>
               <input
                 type="number"
-                min="1"
-                value={quantity === 0 ? '' : quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 0))}
+                min="0"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(0, parseInt(e.target.value) || 0))}
                 className="w-full px-3 py-2 bg-white border border-[#cbd5c8] rounded-lg focus:outline-none focus:border-[#5aa880] focus:ring-2 focus:ring-[#5aa880]/20 text-sm font-mono text-center"
               />
             </div>
             <div>
-              <label className="block text-xs font-black text-[#4a6648] uppercase tracking-wider mb-1 font-mono">
+              <label className="block text-xs font-black text-[#4a6648] uppercase tracking-tight mb-1 font-mono whitespace-nowrap">
                 Weight / 중량 (kg)
               </label>
               <input
                 type="number"
                 step="0.01"
                 min="0"
-                value={weight === 0 ? '0' : weight}
+                value={weight}
                 onChange={(e) => setWeight(Math.max(0, parseFloat(e.target.value) || 0))}
                 className="w-full px-3 py-2 bg-white border border-[#cbd5c8] rounded-lg focus:outline-none focus:border-[#5aa880] focus:ring-2 focus:ring-[#5aa880]/20 text-sm font-mono text-center"
               />
             </div>
             <div>
-              <label className="block text-xs font-black text-[#4a6648] uppercase tracking-wider mb-1 font-mono">
-                Price / 구입금액 (₩)
+              <label className="block text-xs font-black text-[#4a6648] uppercase tracking-tight mb-1 font-mono whitespace-nowrap">
+                Price / 구입금액(₩)
               </label>
               <input
                 type="number"
                 step="100"
                 min="0"
-                value={price === 0 ? '0' : price}
+                value={price}
                 onChange={(e) => setPrice(Math.max(0, parseInt(e.target.value) || 0))}
                 className="w-full px-3 py-2 bg-white border border-[#cbd5c8] rounded-lg focus:outline-none focus:border-[#5aa880] focus:ring-2 focus:ring-[#5aa880]/20 text-sm font-mono text-right"
               />

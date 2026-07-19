@@ -49,6 +49,10 @@ export default function App() {
   const [gearList, setGearList] = useState<GearItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Dynamic today's date format (YYYY-MM-DD)
+  const today = new Date();
+  const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
   // UI state
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -545,7 +549,7 @@ export default function App() {
             <div className="flex items-center gap-3 bg-white/90 px-4 py-2 rounded-xl border border-[#cbd5c8] text-xs text-stone-600 shadow-sm">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-amber-600" />
-                <span className="font-mono">2026-07-18</span>
+                <span className="font-mono">{formattedDate}</span>
               </div>
               <div className="h-3 w-px bg-stone-300" />
               <div className="flex items-center gap-1.5">
@@ -562,7 +566,7 @@ export default function App() {
             <h2 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3 font-mono flex items-center gap-1.5">
               <span>카테고리 요약 정보</span>
               <span className="h-px bg-stone-200 flex-1"></span>
-              <span className="text-[10px] text-emerald-700 font-bold lowercase">감성 패브릭 패치 스티치</span>
+              <span className="text-[10px] text-emerald-700 font-bold lowercase"></span>
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
