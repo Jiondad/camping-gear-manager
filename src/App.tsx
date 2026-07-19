@@ -540,7 +540,7 @@ export default function App() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="w-full max-w-[95%] 2xl:max-w-[82%] rounded-2xl border-x-[12px] border-t-[12px] border-b-[24px] border-[#cbd5c8] bg-[#e3eae1] shadow-[0_25px_65px_rgba(110,130,110,0.18)] relative overflow-hidden z-10"
+        className="w-full max-w-[95%] 2xl:max-w-[82%] rounded-2xl border-x-[12px] border-t-[12px] border-b-[24px] border-[#cbd5c8] bg-[#e3eae1] shadow-[0_25px_65px_rgba(110,130,110,0.18)] relative overflow-hidden z-10 flex-1 flex flex-col mb-4 lg:mb-6"
         id="app-monitor-container"
       >
         {/* Monitor Gloss reflection overlay (retro desktop monitor look) */}
@@ -549,7 +549,7 @@ export default function App() {
         {/* ============================================================== */}
         {/* INNER CONTAINER (COARSE DARK ALUMINUM FRAME FINISH) */}
         {/* ============================================================== */}
-        <div className="p-3 md:p-6 bg-[#f4f7f3] min-h-[700px] flex flex-col gap-6 text-stone-800 border border-[#cbd5c8]">
+        <div className="p-3 md:p-6 bg-[#f4f7f3] flex-1 flex flex-col gap-6 text-stone-800 border border-[#cbd5c8]">
           
           {/* 1. APPLET TITLE BAR */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b-2 border-[#cbd5c8]">
@@ -901,7 +901,7 @@ export default function App() {
             </div>
 
             {/* Desktop Table Wrapper */}
-            <div className="flex-1 overflow-auto max-h-[500px]">
+            <div className="flex-1 overflow-auto min-h-0">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 
                 {/* Table Header - Clean Sage Ivory look */}
@@ -920,7 +920,7 @@ export default function App() {
                         )}
                       </button>
                     </th>
-                    <th className="py-3.5 px-4 w-32">카테고리</th>
+                    <th className="py-3.5 px-4 w-36 text-center whitespace-nowrap">카테고리</th>
                     <th className="py-3.5 px-4 min-w-[280px]">물품명</th>
                     <th className="py-3.5 px-4 w-40">브랜드/제조사</th>
                     <th className="py-3.5 px-4 min-w-[200px]">규격/모델명</th>
@@ -973,8 +973,8 @@ export default function App() {
                           </td>
 
                           {/* Category Badge */}
-                          <td className="py-3 px-4">
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border shadow-sm ${getBadgeStyle(item.category)}`}>
+                          <td className="py-3 px-4 text-center">
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border shadow-sm whitespace-nowrap ${getBadgeStyle(item.category)}`}>
                               {renderCategoryIcon(item.category, "w-3.5 h-3.5")}
                               {categoryLabels[item.category]}
                             </span>
