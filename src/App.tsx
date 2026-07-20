@@ -30,7 +30,9 @@ import {
   Award,
   Armchair,
   ThermometerSun,
-  CarFront
+  CarFront,
+  ChevronUp,
+  ChevronDown
 } from 'lucide-react';
 import { GearItem, GearCategory, CategorySummary } from './types';
 import GearFormModal from './components/GearFormModal';
@@ -66,6 +68,7 @@ export default function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isLetsGoOpen, setIsLetsGoOpen] = useState(false);
   const [editItem, setEditItem] = useState<GearItem | null>(null);
+  const [isSummaryVisible, setIsSummaryVisible] = useState(true);
 
   // Playful environment decorations
   const [lanternOn, setLanternOn] = useState(true);
@@ -570,128 +573,155 @@ export default function App() {
           {/* 1. CATEGORY SUMMARY CARDS (PASTEL FABRIC PATCHES) */}
           {/* ============================================================== */}
           <div className="shrink-0">
-            <h2 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3 font-mono flex items-center gap-1.5">
+            <h2 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3 font-mono flex items-center gap-1.5 select-none">
               <span>카테고리 요약 정보</span>
               <span className="h-px bg-stone-200 flex-1"></span>
-              <span className="text-[10px] text-emerald-700 font-bold lowercase"></span>
+              <button
+                onClick={() => setIsSummaryVisible(!isSummaryVisible)}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-stone-50 border border-[#cbd5c8] text-stone-600 font-sans text-[10px] font-bold transition-all hover:text-stone-900 active:scale-95 shadow-2xs cursor-pointer"
+              >
+                {isSummaryVisible ? (
+                  <>
+                    <ChevronUp className="w-3.5 h-3.5 text-[#5aa880]" />
+                    <span>요약 감추기</span>
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3.5 h-3.5 text-[#5aa880]" />
+                    <span>요약 펼치기</span>
+                  </>
+                )}
+              </button>
             </h2>
 
-            <div className="flex overflow-x-auto pb-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-3">
-              {summaries.map((sum) => {
-                const isActive = categoryFilter === sum.id;
-                
-                // Pastel style mappings for each category
-                const getPastelTheme = (id: string) => {
-                  const themes: Record<string, { bg: string; border: string; text: string; iconBg: string; iconText: string; countText: string }> = {
-                    tent: {
-                      bg: "from-[#eef7f4] via-[#e2f1eb] to-[#d5ebe0]",
-                      border: "border-[#9ed6bc]",
-                      text: "text-emerald-900",
-                      iconBg: "bg-[#d1ecd9]",
-                      iconText: "text-emerald-700",
-                      countText: "text-emerald-700"
-                    },
-                    bedding: {
-                      bg: "from-[#fdf2f0] via-[#fbe4df] to-[#f9d4cc]",
-                      border: "border-[#f5ada0]",
-                      text: "text-rose-900",
-                      iconBg: "bg-[#fad6cf]",
-                      iconText: "text-rose-700",
-                      countText: "text-rose-700"
-                    },
-                    furniture: {
-                      bg: "from-[#fdf8f5] via-[#f7eae1] to-[#f0ded3]",
-                      border: "border-[#ddc4b4]",
-                      text: "text-amber-950",
-                      iconBg: "bg-[#f5e3d7]",
-                      iconText: "text-amber-800",
-                      countText: "text-amber-800"
-                    },
-                    cooking: {
-                      bg: "from-[#fef9e7] via-[#fdf2cc] to-[#faeab1]",
-                      border: "border-[#e9cc72]",
-                      text: "text-amber-900",
-                      iconBg: "bg-[#fbe7a4]",
-                      iconText: "text-amber-700",
-                      countText: "text-amber-700"
-                    },
-                    lighting: {
-                      bg: "from-[#e8f4fd] via-[#d4ebfc] to-[#bfe0fa]",
-                      border: "border-[#96cbf2]",
-                      text: "text-sky-900",
-                      iconBg: "bg-[#cfe7fa]",
-                      iconText: "text-sky-700",
-                      countText: "text-sky-700"
-                    },
-                    seasonal: {
-                      bg: "from-[#f4faf8] via-[#e5f5f0] to-[#daf0ea]",
-                      border: "border-[#addbd0]",
-                      text: "text-teal-950",
-                      iconBg: "bg-[#cfebe3]",
-                      iconText: "text-teal-800",
-                      countText: "text-teal-800"
-                    },
-                    etc: {
-                      bg: "from-[#f3f0fd] via-[#e6dffd] to-[#d4ceff]",
-                      border: "border-[#bba6fc]",
-                      text: "text-indigo-900",
-                      iconBg: "bg-[#e2d8fe]",
-                      iconText: "text-indigo-700",
-                      countText: "text-indigo-700"
-                    },
-                  };
-                  return themes[id] || themes.etc;
-                };
-
-                const theme = getPastelTheme(sum.id);
-
-                return (
-                  <motion.div
-                    key={sum.id}
-                    whileHover={{ y: -3, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setCategoryFilter(isActive ? 'all' : sum.id)}
-                    className={`cursor-pointer transition-all duration-300 rounded-xl relative p-0.5 overflow-hidden shadow-sm min-w-[140px] md:min-w-0 snap-center shrink-0 ${
-                      isActive 
-                        ? 'ring-2 ring-[#5aa880] scale-[1.02] shadow-md' 
-                        : 'hover:shadow-md'
-                    }`}
-                    id={`summary-card-${sum.id}`}
-                  >
-                    {/* Fabric patch stitched borders */}
-                    <div className={`border border-dashed border-white m-[2px] rounded-lg p-3.5 flex flex-col justify-between h-24 bg-gradient-to-br ${theme.bg} ${theme.border} shadow-inner relative`}>
-                      {/* Soft canvas weave texture overlay */}
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4),transparent)] pointer-events-none rounded-lg" />
+            <AnimatePresence initial={false}>
+              {isSummaryVisible && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <div className="flex overflow-x-auto pb-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-3 pt-1">
+                    {summaries.map((sum) => {
+                      const isActive = categoryFilter === sum.id;
                       
-                      {/* Top icon & Label */}
-                      <div className="flex items-center justify-between">
-                        <span className={`text-[10px] font-black ${theme.text} tracking-wider uppercase font-mono`}>
-                          {sum.name}
-                        </span>
-                        <div className={`p-1 rounded-lg ${theme.iconBg} ${theme.iconText} border border-white/60`}>
-                          {renderCategoryIcon(sum.iconName, "w-4 h-4")}
-                        </div>
-                      </div>
+                      // Pastel style mappings for each category
+                      const getPastelTheme = (id: string) => {
+                        const themes: Record<string, { bg: string; border: string; text: string; iconBg: string; iconText: string; countText: string }> = {
+                          tent: {
+                            bg: "from-[#eef7f4] via-[#e2f1eb] to-[#d5ebe0]",
+                            border: "border-[#9ed6bc]",
+                            text: "text-emerald-900",
+                            iconBg: "bg-[#d1ecd9]",
+                            iconText: "text-emerald-700",
+                            countText: "text-emerald-700"
+                          },
+                          bedding: {
+                            bg: "from-[#fdf2f0] via-[#fbe4df] to-[#f9d4cc]",
+                            border: "border-[#f5ada0]",
+                            text: "text-rose-900",
+                            iconBg: "bg-[#fad6cf]",
+                            iconText: "text-rose-700",
+                            countText: "text-rose-700"
+                          },
+                          furniture: {
+                            bg: "from-[#fdf8f5] via-[#f7eae1] to-[#f0ded3]",
+                            border: "border-[#ddc4b4]",
+                            text: "text-amber-950",
+                            iconBg: "bg-[#f5e3d7]",
+                            iconText: "text-amber-800",
+                            countText: "text-amber-800"
+                          },
+                          cooking: {
+                            bg: "from-[#fef9e7] via-[#fdf2cc] to-[#faeab1]",
+                            border: "border-[#e9cc72]",
+                            text: "text-amber-900",
+                            iconBg: "bg-[#fbe7a4]",
+                            iconText: "text-amber-700",
+                            countText: "text-amber-700"
+                          },
+                          lighting: {
+                            bg: "from-[#e8f4fd] via-[#d4ebfc] to-[#bfe0fa]",
+                            border: "border-[#96cbf2]",
+                            text: "text-sky-900",
+                            iconBg: "bg-[#cfe7fa]",
+                            iconText: "text-sky-700",
+                            countText: "text-sky-700"
+                          },
+                          seasonal: {
+                            bg: "from-[#f4faf8] via-[#e5f5f0] to-[#daf0ea]",
+                            border: "border-[#addbd0]",
+                            text: "text-teal-950",
+                            iconBg: "bg-[#cfebe3]",
+                            iconText: "text-teal-800",
+                            countText: "text-teal-800"
+                          },
+                          etc: {
+                            bg: "from-[#f3f0fd] via-[#e6dffd] to-[#d4ceff]",
+                            border: "border-[#bba6fc]",
+                            text: "text-indigo-900",
+                            iconBg: "bg-[#e2d8fe]",
+                            iconText: "text-indigo-700",
+                            countText: "text-indigo-700"
+                          },
+                        };
+                        return themes[id] || themes.etc;
+                      };
 
-                      {/* Handwritten text inside */}
-                      <div className="mt-2 text-left">
-                        <p className="font-sans text-[10px] text-stone-500 font-bold tracking-tight leading-none mb-1">
-                          {sum.label}
-                        </p>
-                        <p className={`font-hand text-xl font-black ${theme.countText} leading-none`}>
-                          {sum.countText}
-                        </p>
-                      </div>
+                      const theme = getPastelTheme(sum.id);
 
-                      {/* Small visual fabric label */}
-                      <div className="absolute bottom-1 right-2.5 text-[8px] font-sans text-stone-400/60 italic font-bold pointer-events-none">
-                        cotton patch
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                      return (
+                        <motion.div
+                          key={sum.id}
+                          whileHover={{ y: -3, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setCategoryFilter(isActive ? 'all' : sum.id)}
+                          className={`cursor-pointer transition-all duration-300 rounded-xl relative p-0.5 overflow-hidden shadow-sm min-w-[140px] md:min-w-0 snap-center shrink-0 ${
+                            isActive 
+                              ? 'ring-2 ring-[#5aa880] scale-[1.02] shadow-md' 
+                              : 'hover:shadow-md'
+                          }`}
+                          id={`summary-card-${sum.id}`}
+                        >
+                          {/* Fabric patch stitched borders */}
+                          <div className={`border border-dashed border-white m-[2px] rounded-lg p-3.5 flex flex-col justify-between h-24 bg-gradient-to-br ${theme.bg} ${theme.border} shadow-inner relative`}>
+                            {/* Soft canvas weave texture overlay */}
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4),transparent)] pointer-events-none rounded-lg" />
+                            
+                            {/* Top icon & Label */}
+                            <div className="flex items-center justify-between">
+                              <span className={`text-[10px] font-black ${theme.text} tracking-wider uppercase font-mono`}>
+                                {sum.name}
+                              </span>
+                              <div className={`p-1 rounded-lg ${theme.iconBg} ${theme.iconText} border border-white/60`}>
+                                {renderCategoryIcon(sum.iconName, "w-4 h-4")}
+                              </div>
+                            </div>
+
+                            {/* Handwritten text inside */}
+                            <div className="mt-2 text-left">
+                              <p className="font-sans text-[10px] text-stone-500 font-bold tracking-tight leading-none mb-1">
+                                {sum.label}
+                              </p>
+                              <p className={`font-hand text-xl font-black ${theme.countText} leading-none`}>
+                                {sum.countText}
+                              </p>
+                            </div>
+
+                            {/* Small visual fabric label */}
+                            <div className="absolute bottom-1 right-2.5 text-[8px] font-sans text-stone-400/60 italic font-bold pointer-events-none">
+                              cotton patch
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* ============================================================== */}
