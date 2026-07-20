@@ -202,11 +202,33 @@ export default function App() {
   };
 
   // Actions
-  const handleLetsGo = () => {
+  const handleLetsGoClick = () => {
+    console.log("Let's Go 버튼 클릭됨!", { selectedIds });
+
+    // 1. 선택된 장비가 없을 때
     if (selectedIds.length === 0) {
-      triggerToast('패킹할 장비를 먼저 선택해 주세요.', 'warning');
+      triggerToast("선택된 장비가 없습니다.", "warning"); // alert 대신 toast 사용
       return;
     }
+
+    const selectedGearItems = gearList.filter(gear => selectedIds.includes(gear.id));
+
+    // 2. 이용 불가능한 장비 필터링 (한글 상태값이 정확히 무엇인지 코드에 맞게 조정하세요)
+    const unavailableItems = selectedGearItems.filter(
+      gear => gear.status !== '보유' // 예: '보유' 상태가 아닌 것을 모두 걸러냅니다.
+    );
+
+    // 3. 불가능한 장비가 포함되어 있을 때
+    if (unavailableItems.length > 0) {
+      const unavailableItemNames = unavailableItems.map(gear => `${gear.name}(${gear.status})`).join(', ');
+      
+      // alert 대신 toast 사용
+      triggerToast(`이용 불가 장비가 있습니다: ${unavailableItemNames}`, "warning");
+      console.warn("가져갈 수 없는 장비 목록:", unavailableItemNames); // 목록은 콘솔에 출력
+      return;
+    }
+
+    // 4. 모달 열기
     setIsLetsGoOpen(true);
   };
 
@@ -776,7 +798,7 @@ export default function App() {
             <div className="flex flex-wrap items-center justify-start lg:justify-end gap-2 w-full lg:w-auto">
               {/* Let's Go */}
               <button
-                onClick={handleLetsGo}
+                onClick={handleLetsGoClick}
                 className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#a78bfa] hover:bg-[#8b5cf6] border border-[#7c3aed] active:scale-95 transition-all text-white rounded-full shadow-sm mr-2"
                 title="선택된 장비 패킹 리스트 보기"
               >
