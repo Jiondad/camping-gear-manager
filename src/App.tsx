@@ -13,7 +13,6 @@ import {
   Package,
   Plus,
   Pencil,
-  ShoppingCart,
   Trash2,
   Coins,
   X,
@@ -30,10 +29,12 @@ import {
   Layers,
   Award,
   Armchair,
-  ThermometerSun
+  ThermometerSun,
+  CarFront
 } from 'lucide-react';
 import { GearItem, GearCategory, CategorySummary } from './types';
 import GearFormModal from './components/GearFormModal';
+import LetsGoModal from './components/LetsGoModal';
 
 const categoryLabels: Record<GearCategory, string> = {
   tent: '텐트/타프',
@@ -63,6 +64,7 @@ export default function App() {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isLetsGoOpen, setIsLetsGoOpen] = useState(false);
   const [editItem, setEditItem] = useState<GearItem | null>(null);
 
   // Playful environment decorations
@@ -200,49 +202,17 @@ export default function App() {
   };
 
   // Actions
+  const handleLetsGo = () => {
+    if (selectedIds.length === 0) {
+      triggerToast('패킹할 장비를 먼저 선택해 주세요.', 'warning');
+      return;
+    }
+    setIsLetsGoOpen(true);
+  };
+
   const handleAddNew = () => {
     setEditItem(null);
     setIsFormOpen(true);
-  };
-
-  const handleEditSelected = () => {
-    if (selectedIds.length === 0) {
-      triggerToast('수정할 장비를 리스트에서 체크박스로 선택해주세요.', 'warning');
-      return;
-    }
-    if (selectedIds.length > 1) {
-      triggerToast('정보 수정은 한 번에 하나의 장비만 가능합니다. 한 개만 선택해주세요.', 'warning');
-      return;
-    }
-    const target = gearList.find(x => x.id === selectedIds[0]);
-    if (target) {
-      setEditItem(target);
-      setIsFormOpen(true);
-    }
-  };
-
-  const handleSellSelected = () => {
-    if (selectedIds.length === 0) {
-      triggerToast('매각할 장비를 리스트에서 체크박스로 선택해주세요.', 'warning');
-      return;
-    }
-    const updatedList = gearList.map(item => (selectedIds.includes(item.id) ? { ...item, status: '매각' as const } : item));
-    setGearList(updatedList);
-    syncWithBackend(updatedList);
-    triggerToast(`${selectedIds.length}개의 장비가 '매각' 상태로 변경되었습니다.`, 'success');
-    setSelectedIds([]);
-  };
-
-  const handleDiscardSelected = () => {
-    if (selectedIds.length === 0) {
-      triggerToast('폐기할 장비를 리스트에서 체크박스로 선택해주세요.', 'warning');
-      return;
-    }
-    const updatedList = gearList.map(item => (selectedIds.includes(item.id) ? { ...item, status: '폐기' as const } : item));
-    setGearList(updatedList);
-    syncWithBackend(updatedList);
-    triggerToast(`${selectedIds.length}개의 장비가 '폐기' 상태로 변경되었습니다.`, 'success');
-    setSelectedIds([]);
   };
 
   const handleSaveItem = (itemData: Omit<GearItem, 'id'> & { id?: string }) => {
@@ -804,6 +774,16 @@ export default function App() {
             {/* 3. MANAGEMENT BUTTONS (ROUNDED PASTEL DESIGN) */}
             {/* ============================================================== */}
             <div className="flex flex-wrap items-center justify-start lg:justify-end gap-2 w-full lg:w-auto">
+              {/* Let's Go */}
+              <button
+                onClick={handleLetsGo}
+                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#a78bfa] hover:bg-[#8b5cf6] border border-[#7c3aed] active:scale-95 transition-all text-white rounded-full shadow-sm mr-2"
+                title="선택된 장비 패킹 리스트 보기"
+              >
+                <CarFront className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-bold font-sans tracking-tight">Let's Go!</span>
+              </button>
+
               {/* 신규등록 */}
               <button
                 onClick={handleAddNew}
@@ -812,36 +792,6 @@ export default function App() {
               >
                 <Plus className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-bold font-sans tracking-tight">신규등록</span>
-              </button>
-
-              {/* 정보 수정 */}
-              <button
-                onClick={handleEditSelected}
-                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#f3b05a] hover:bg-[#e49c3f] border border-[#df922e] active:scale-95 transition-all text-white rounded-full shadow-sm"
-                title="선택된 장비 수정"
-              >
-                <Pencil className="w-3.5 h-3.5 text-white group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-bold font-sans tracking-tight">정보수정</span>
-              </button>
-
-              {/* 매각 등록 */}
-              <button
-                onClick={handleSellSelected}
-                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#6ca3f1] hover:bg-[#518ee0] border border-[#3e7ecf] active:scale-95 transition-all text-white rounded-full shadow-sm"
-                title="선택된 장비 매각 처리"
-              >
-                <ShoppingCart className="w-3.5 h-3.5 text-white group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-bold font-sans tracking-tight">매각등록</span>
-              </button>
-
-              {/* 폐기 등록 */}
-              <button
-                onClick={handleDiscardSelected}
-                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#f1787c] hover:bg-[#e05f63] border border-[#ce4c50] active:scale-95 transition-all text-white rounded-full shadow-sm"
-                title="선택된 장비 폐기 처리"
-              >
-                <Trash2 className="w-3.5 h-3.5 text-white group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-bold font-sans tracking-tight">폐기등록</span>
               </button>
             </div>
           </div>
@@ -1132,6 +1082,13 @@ export default function App() {
         }}
         onSave={handleSaveItem}
         editItem={editItem}
+      />
+
+      {/* Let's Go Modal */}
+      <LetsGoModal
+        isOpen={isLetsGoOpen}
+        onClose={() => setIsLetsGoOpen(false)}
+        selectedItems={gearList.filter(item => selectedIds.includes(item.id))}
       />
     </div>
   );
