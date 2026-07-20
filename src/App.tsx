@@ -292,7 +292,52 @@ export default function App() {
     }
   };
 
-  // Total summary weight & price calculations
+  // Category badge color helper (table와 모바일 카드에서 공용으로 사용)
+  const getCategoryBadgeStyle = (cat: string) => {
+    const styles: Record<string, string> = {
+      tent: "bg-[#eef7f4] border-[#bfe3d5] text-emerald-800",
+      bedding: "bg-[#fdf2f0] border-[#fbc9bf] text-rose-800",
+      furniture: "bg-[#fdf8f5] border-[#f0ded3] text-amber-900",
+      cooking: "bg-[#fef9e7] border-[#fae5a4] text-amber-800",
+      lighting: "bg-[#e8f4fd] border-[#c0e0fc] text-sky-800",
+      seasonal: "bg-[#f4faf8] border-[#daf0ea] text-teal-800",
+      etc: "bg-[#f3f0fd] border-[#dfd7fe] text-indigo-800"
+    };
+    return styles[cat] || styles.etc;
+  };
+
+  // Status badge helper (table와 모바일 카드에서 공용으로 사용)
+  const renderStatusBadge = (status: GearItem['status']) => {
+    if (status === '보유') {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#ebf5ed] text-emerald-700 border border-emerald-300 shadow-sm relative">
+          <Tent className="w-3.5 h-3.5 text-emerald-600" />
+          보유
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping absolute -top-0.5 -right-0.5" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 absolute -top-0.5 -right-0.5" />
+        </span>
+      );
+    }
+    if (status === '매각') {
+      return (
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#fbf4eb] text-amber-700 border border-amber-300 shadow-sm">
+          <Coins className="w-3 h-3 text-amber-600" />
+          매각
+        </span>
+      );
+    }
+    if (status === '폐기') {
+      return (
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#fdf0f1] text-rose-700 border border-rose-300 shadow-sm">
+          <X className="w-3 h-3 text-rose-500" />
+          폐기
+        </span>
+      );
+    }
+    return null;
+  };
+
+
   const stats = useMemo(() => {
     const activeList = gearList.filter(item => item.status === '보유');
     const totalCount = activeList.reduce((acc, curr) => acc + curr.quantity, 0);
@@ -893,7 +938,7 @@ export default function App() {
             </div>
 
             {/* Desktop Table Wrapper */}
-            <div className="flex-1 overflow-y-auto overflow-x-auto min-h-0">
+            <div className="hidden md:block flex-1 overflow-y-auto overflow-x-auto min-h-0">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 
                 {/* Table Header - Clean Sage Ivory look */}
@@ -929,19 +974,6 @@ export default function App() {
                   {filteredGear.length > 0 ? (
                     filteredGear.map((item) => {
                       const isSelected = selectedIds.includes(item.id);
-                      
-                      const getBadgeStyle = (cat: string) => {
-                        const styles: Record<string, string> = {
-                          tent: "bg-[#eef7f4] border-[#bfe3d5] text-emerald-800",
-                          bedding: "bg-[#fdf2f0] border-[#fbc9bf] text-rose-800",
-                          furniture: "bg-[#fdf8f5] border-[#f0ded3] text-amber-900",
-                          cooking: "bg-[#fef9e7] border-[#fae5a4] text-amber-800",
-                          lighting: "bg-[#e8f4fd] border-[#c0e0fc] text-sky-800",
-                          seasonal: "bg-[#f4faf8] border-[#daf0ea] text-teal-800",
-                          etc: "bg-[#f3f0fd] border-[#dfd7fe] text-indigo-800"
-                        };
-                        return styles[cat] || styles.etc;
-                      };
 
                       return (
                         <tr
@@ -966,7 +998,7 @@ export default function App() {
 
                           {/* Category Badge */}
                           <td className="py-3 px-4 text-center">
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border shadow-sm whitespace-nowrap ${getBadgeStyle(item.category)}`}>
+                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border shadow-sm whitespace-nowrap ${getCategoryBadgeStyle(item.category)}`}>
                               {renderCategoryIcon(item.category, "w-3.5 h-3.5")}
                               {categoryLabels[item.category]}
                             </span>
@@ -1007,26 +1039,7 @@ export default function App() {
                           {/* Status - Soft Pastel glowing pills */}
                           <td className="py-3 px-4 text-center">
                             <div className="flex items-center justify-center">
-                              {item.status === '보유' && (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#ebf5ed] text-emerald-700 border border-emerald-300 shadow-sm relative">
-                                  <Tent className="w-3.5 h-3.5 text-emerald-600" />
-                                  보유
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping absolute -top-0.5 -right-0.5" />
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 absolute -top-0.5 -right-0.5" />
-                                </span>
-                              )}
-                              {item.status === '매각' && (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#fbf4eb] text-amber-700 border border-amber-300 shadow-sm">
-                                  <Coins className="w-3 h-3 text-amber-600" />
-                                  매각
-                                </span>
-                              )}
-                              {item.status === '폐기' && (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#fdf0f1] text-rose-700 border border-rose-300 shadow-sm">
-                                  <X className="w-3 h-3 text-rose-500" />
-                                  폐기
-                                </span>
-                              )}
+                              {renderStatusBadge(item.status)}
                             </div>
                           </td>
 
@@ -1081,6 +1094,102 @@ export default function App() {
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Card List (테이블 대신 좁은 화면에서 가로 스크롤 없이 한 눈에 보이도록) */}
+            <div className="md:hidden flex-1 overflow-y-auto min-h-0 divide-y divide-stone-100 bg-white">
+              {filteredGear.length > 0 ? (
+                filteredGear.map((item) => {
+                  const isSelected = selectedIds.includes(item.id);
+                  return (
+                    <div
+                      key={item.id}
+                      className={`p-4 flex flex-col gap-2 ${isSelected ? 'bg-[#ebf5ed]/80' : ''}`}
+                    >
+                      {/* Row 1: 체크박스 + 카테고리 배지 + 관리 버튼 */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <button
+                            onClick={() => toggleSelect(item.id)}
+                            className="p-1 rounded text-stone-500 hover:text-stone-800 transition-colors shrink-0"
+                          >
+                            {isSelected ? (
+                              <CheckSquare className="w-4 h-4 text-[#5aa880]" />
+                            ) : (
+                              <Square className="w-4 h-4 text-stone-300" />
+                            )}
+                          </button>
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border shadow-sm whitespace-nowrap shrink-0 ${getCategoryBadgeStyle(item.category)}`}>
+                            {renderCategoryIcon(item.category, "w-3.5 h-3.5")}
+                            {categoryLabels[item.category]}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditItem(item);
+                              setIsFormOpen(true);
+                            }}
+                            title="수정"
+                            className="p-1.5 rounded hover:bg-stone-100 transition-colors"
+                          >
+                            <Pencil className="w-4 h-4 text-stone-400 hover:text-[#f3b05a] transition-colors" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteItem(item.id);
+                            }}
+                            title="삭제"
+                            className="p-1.5 rounded hover:bg-stone-100 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4 text-stone-400 hover:text-rose-500 transition-colors" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Row 2: 물품명 */}
+                      <span className="font-sans font-extrabold text-sm text-stone-900 leading-snug">
+                        {item.name}
+                      </span>
+
+                      {/* Row 3: 브랜드 / 규격 */}
+                      {(item.brand || item.model) && (
+                        <div className="text-xs text-stone-500 font-sans flex flex-wrap gap-x-1.5">
+                          {item.brand && <span className="font-semibold text-stone-600">{item.brand}</span>}
+                          {item.brand && item.model && <span className="text-stone-300">·</span>}
+                          {item.model && <span className="font-mono">{item.model}</span>}
+                        </div>
+                      )}
+
+                      {/* Row 4: 수량/중량/금액 + 상태 */}
+                      <div className="flex items-center justify-between gap-2 pt-2 mt-1 border-t border-dashed border-stone-200">
+                        <div className="flex items-center gap-3 font-mono text-xs text-stone-600">
+                          <span><strong className="text-stone-900">{item.quantity}</strong>개</span>
+                          <span className="text-stone-300">|</span>
+                          <span>{item.weight > 0 ? `${item.weight.toFixed(1)}kg` : '0.0kg'}</span>
+                          <span className="text-stone-300">|</span>
+                          <span className="font-bold text-stone-900">₩{item.price.toLocaleString()}</span>
+                        </div>
+                        {renderStatusBadge(item.status)}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="py-12 text-center bg-white">
+                  <div className="flex flex-col items-center justify-center p-4">
+                    <Info className="w-10 h-10 text-stone-300 mb-2" />
+                    <p className="font-hand text-lg text-stone-600 font-bold">
+                      지정된 조건에 부합하는 장비가 없습니다.
+                    </p>
+                    <p className="text-xs text-stone-400 mt-1 font-sans">
+                      검색어 또는 분류 필터를 변경하거나 새로운 장비를 등록해주세요.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
