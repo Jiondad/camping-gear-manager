@@ -12,6 +12,7 @@ interface LetsGoModalProps {
 
 export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null); // 실제로 스크롤이 걸리는 body 영역
   const [isSharing, setIsSharing] = useState(false);
 
   // Group items by category and compute weights
@@ -60,35 +61,87 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
     URL.revokeObjectURL(url);
   };
 
+  // alert/confirm이 sandboxed iframe(allow-modals 없음) 등에서 무시되거나 예외를 던져도
+  // 로직이 멈추지 않도록 안전하게 감싸는 헬퍼
+  const safeConfirm = (msg: string): boolean => {
+    try {
+      return window.confirm(msg);
+    } catch {
+      return false;
+    }
+  };
+  const safeAlert = (msg: string) => {
+    try {
+      window.alert(msg);
+    } catch {
+      console.warn('[alert 무시됨]', msg);
+    }
+  };
+
+  // 다음 두 프레임까지 기다려서 레이아웃(reflow)이 실제로 반영된 뒤에 진행
+  const waitForNextFrames = (count = 2) =>
+    new Promise<void>((resolve) => {
+      const step = (n: number) => {
+        if (n <= 0) return resolve();
+        requestAnimationFrame(() => step(n - 1));
+      };
+      step(count);
+    });
+
   const handleShare = async () => {
     if (!modalRef.current || isSharing) return;
     setIsSharing(true);
 
-    const targetElement = modalRef.current;
-    
-    // 1. 기존 스타일 안전하게 백업
-    const originalStyle = {
-      height: targetElement.style.height,
-      maxHeight: targetElement.style.maxHeight,
-      overflowY: targetElement.style.overflowY,
+    const containerEl = modalRef.current;
+    const bodyEl = bodyRef.current;
+
+    // 1. 기존 스타일 안전하게 백업 (바깥 컨테이너 + 실제 스크롤 영역 둘 다)
+    const originalContainerStyle = {
+      height: containerEl.style.height,
+      maxHeight: containerEl.style.maxHeight,
+      overflowY: containerEl.style.overflowY,
+    };
+    const originalBodyStyle = bodyEl
+      ? {
+          overflowY: bodyEl.style.overflowY,
+          flex: bodyEl.style.flex,
+          height: bodyEl.style.height,
+          maxHeight: bodyEl.style.maxHeight,
+        }
+      : null;
+
+    const restoreStyles = () => {
+      Object.assign(containerEl.style, originalContainerStyle);
+      if (bodyEl && originalBodyStyle) {
+        Object.assign(bodyEl.style, originalBodyStyle);
+      }
     };
 
-    try {
-      // 2. 캡처를 위해 전체 높이로 펼치기
-      targetElement.style.height = 'auto';
-      targetElement.style.maxHeight = 'none';
-      targetElement.style.overflowY = 'visible';
+    let blob: Blob | null = null;
 
-      // 3. 무한 로딩 방지를 위한 타임아웃(5초) 적용
-      const blob = await Promise.race([
-        toBlob(targetElement, { backgroundColor: '#ffffff', cacheBust: true }),
-        new Promise<never>((_, reject) => 
-          setTimeout(() => reject(new Error('캡처 시간 초과')), 5000)
-        )
-      ]);
+    try {
+      // 2. 캡처를 위해 전체 높이로 펼치기 (바깥 컨테이너)
+      containerEl.style.height = 'auto';
+      containerEl.style.maxHeight = 'none';
+      containerEl.style.overflowY = 'visible';
+
+      // 2-1. 실제 스크롤이 걸리는 body 영역도 함께 풀어줘야
+      //      스크롤 아래 잘려있던 항목까지 전부 캡처됨 (핵심 수정 포인트)
+      if (bodyEl) {
+        bodyEl.style.overflowY = 'visible';
+        bodyEl.style.maxHeight = 'none';
+        bodyEl.style.height = 'auto';
+        bodyEl.style.flex = 'none'; // flex-1(flex-basis:0%)로 인한 높이 축소 방지
+      }
+
+      // 2-2. 스타일 변경이 실제로 레이아웃에 반영될 때까지 대기
+      await waitForNextFrames(2);
+
+      // 3. 이미지 캡처
+      blob = await toBlob(containerEl, { backgroundColor: '#ffffff', cacheBust: true });
 
       // 4. 캡처 직후 스타일 즉시 복구
-      Object.assign(targetElement.style, originalStyle);
+      restoreStyles();
 
       if (!blob) throw new Error('이미지 생성 실패');
 
@@ -101,21 +154,35 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
             title: '캠핑 패킹 리스트',
             files: [file],
           });
-        } catch (err) {
-          console.warn('공유 창 열기 실패, 다운로드로 대체:', err);
-          // 샌드박스 환경이나 제스처 만료로 공유 창이 안 열리면 즉시 다운로드!
-          alert('공유 창을 띄울 수 없어 기기에 이미지를 저장합니다.');
-          downloadFallback(blob);
+        } catch (err: any) {
+          if (err.name === 'AbortError') {
+            // 사용자가 공유 시트를 스스로 닫은 정상 취소 케이스.
+            // confirm()이 sandbox 환경에서 무시될 수 있으므로 안전 버전 사용.
+            const userWantsToDownload = safeConfirm(
+              '공유 창이 닫혔거나 실행 시간이 초과되었습니다. 대신 기기에 이미지를 저장하시겠습니까?'
+            );
+            if (userWantsToDownload) {
+              downloadFallback(blob);
+            }
+          } else {
+            console.warn('공유 창 열기 실패, 다운로드로 대체:', err);
+            safeAlert('공유 창을 띄울 수 없어 기기에 이미지를 저장합니다.');
+            downloadFallback(blob);
+          }
         }
       } else {
-        alert('현재 브라우저에서는 공유 기능을 지원하지 않아 이미지를 저장합니다.');
+        safeAlert('현재 브라우저에서는 공유 기능을 지원하지 않아 이미지를 저장합니다.');
         downloadFallback(blob);
       }
     } catch (err) {
       console.error('캡처/공유 중 오류 발생:', err);
       // 치명적 에러 발생 시에도 스타일 확실히 복구
-      Object.assign(targetElement.style, originalStyle);
-      alert('이미지 처리 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      restoreStyles();
+      // 캡처는 됐는데 이후 단계에서 실패한 거라면 최소한 다운로드는 시도
+      if (blob) {
+        downloadFallback(blob);
+      }
+      safeAlert('이미지 처리 중 오류가 발생했습니다. 다시 시도해 주세요.');
     } finally {
       // 6. 성공하든 실패하든 무조건 버튼 로딩 상태 해제
       setIsSharing(false);
@@ -151,7 +218,7 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
             </div>
 
             {/* Body */}
-            <div className="p-6 space-y-4 overflow-y-auto flex-1">
+            <div ref={bodyRef} className="p-6 space-y-4 overflow-y-auto flex-1">
               {(Object.entries(groupedItems) as [GearCategory, { items: GearItem[], categoryWeight: number }][])
                 .sort(([catA], [catB]) => {
                   const indexA = categoryOptions.findIndex(c => c.value === catA);
