@@ -14,6 +14,7 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
   const modalRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null); // 실제로 스크롤이 걸리는 body 영역
   const [isSharing, setIsSharing] = useState(false);
+  const [shareStage, setShareStage] = useState<'idle' | 'capturing' | 'opening-share'>('idle');
 
   // Group items by category and compute weights
   const { groupedItems, totalQuantity, totalWeight } = useMemo(() => {
@@ -88,9 +89,29 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
       step(count);
     });
 
+  // 특정 시간 안에 끝나지 않으면 명확한 에러로 실패시킴 (무한정 "캡처 중..."으로 멈춰있는 것 방지)
+  const withTimeout = <T,>(promise: Promise<T>, ms: number, label: string): Promise<T> => {
+    return new Promise<T>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new Error(`${label} 시간 초과 (${ms}ms)`));
+      }, ms);
+      promise.then(
+        (v) => {
+          clearTimeout(timer);
+          resolve(v);
+        },
+        (e) => {
+          clearTimeout(timer);
+          reject(e);
+        }
+      );
+    });
+  };
+
   const handleShare = async () => {
     if (!modalRef.current || isSharing) return;
     setIsSharing(true);
+    setShareStage('capturing');
 
     const containerEl = modalRef.current;
     const bodyEl = bodyRef.current;
@@ -138,7 +159,15 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
       await waitForNextFrames(2);
 
       // 3. 이미지 캡처
-      blob = await toBlob(containerEl, { backgroundColor: '#ffffff', cacheBust: true });
+      // - cacheBust:true는 매번 폰트/이미지를 네트워크로 재요청하게 만들어
+      //   배포 도메인에서 수 초~수십 초까지 느려지는 주 원인이 될 수 있음 → false로 변경
+      // - 8초 안에 안 끝나면 타임아웃으로 실패시켜, 사용자 제스처가
+      //   만료된 채로 navigator.share()를 호출하는 상황을 방지
+      blob = await withTimeout(
+        toBlob(containerEl, { backgroundColor: '#ffffff', cacheBust: false }),
+        8000,
+        '이미지 생성'
+      );
 
       // 4. 캡처 직후 스타일 즉시 복구
       restoreStyles();
@@ -149,6 +178,7 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
 
       // 5. 공유 API 실행 및 실패 시 폴백
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        setShareStage('opening-share');
         try {
           await navigator.share({
             title: '캠핑 패킹 리스트',
@@ -181,11 +211,13 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
       // 캡처는 됐는데 이후 단계에서 실패한 거라면 최소한 다운로드는 시도
       if (blob) {
         downloadFallback(blob);
+      } else {
+        safeAlert('이미지 생성이 너무 오래 걸려 중단했습니다. 다시 시도해 주세요.');
       }
-      safeAlert('이미지 처리 중 오류가 발생했습니다. 다시 시도해 주세요.');
     } finally {
       // 6. 성공하든 실패하든 무조건 버튼 로딩 상태 해제
       setIsSharing(false);
+      setShareStage('idle');
     }
   };
 
@@ -286,7 +318,9 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
                   className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-bold border border-stone-300 text-stone-600 bg-white hover:bg-stone-50 rounded-xl shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
-                  {isSharing ? '캡처 중...' : '공유'}
+                  {shareStage === 'capturing' && '이미지 생성 중...'}
+                  {shareStage === 'opening-share' && '공유 앱 선택 중...'}
+                  {shareStage === 'idle' && '공유'}
                 </button>
                 <button
                   onClick={onClose}
