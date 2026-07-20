@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Tent, Bed, Flame, Lightbulb, Package, Armchair, ThermometerSun, Check, Share2, Loader2 } from 'lucide-react';
 import { GearItem, GearCategory } from '../types';
@@ -10,11 +10,115 @@ interface LetsGoModalProps {
   selectedItems: GearItem[];
 }
 
+// 다음 n프레임까지 기다려서 레이아웃(reflow)이 실제로 반영된 뒤에 진행
+const waitForNextFrames = (count = 2) =>
+  new Promise<void>((resolve) => {
+    const step = (n: number) => {
+      if (n <= 0) return resolve();
+      requestAnimationFrame(() => step(n - 1));
+    };
+    step(count);
+  });
+
+// 특정 시간 안에 끝나지 않으면 명확한 에러로 실패시킴 (무한정 멈춰있는 것 방지)
+const withTimeout = <T,>(promise: Promise<T>, ms: number, label: string): Promise<T> => {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`${label} 시간 초과 (${ms}ms)`));
+    }, ms);
+    promise.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(timer);
+        reject(e);
+      }
+    );
+  });
+};
+
+// 캡처 대상 노드(원본 또는 clone)를 펼친 뒤 이미지를 뽑아내는 공통 로직.
+// clone에 대해 실행할 때는 화면에 아무 영향이 없으므로 스타일 복구가 필요 없다.
+async function captureNodeToBlob(
+  containerEl: HTMLElement,
+  bodyEl: HTMLElement | null,
+  opts: { restore: boolean }
+): Promise<Blob | null> {
+  const originalContainerStyle = opts.restore
+    ? {
+        height: containerEl.style.height,
+        maxHeight: containerEl.style.maxHeight,
+        overflowY: containerEl.style.overflowY,
+      }
+    : null;
+  const originalBodyStyle =
+    opts.restore && bodyEl
+      ? {
+          overflowY: bodyEl.style.overflowY,
+          flex: bodyEl.style.flex,
+          height: bodyEl.style.height,
+          maxHeight: bodyEl.style.maxHeight,
+        }
+      : null;
+
+  // 1. 전체 높이로 펼치기 (바깥 컨테이너)
+  containerEl.style.height = 'auto';
+  containerEl.style.maxHeight = 'none';
+  containerEl.style.overflowY = 'visible';
+
+  // 1-1. 실제 스크롤이 걸리는 body 영역도 함께 풀어줘야
+  //      스크롤 아래 잘려있던 항목까지 전부 캡처됨
+  if (bodyEl) {
+    bodyEl.style.overflowY = 'visible';
+    bodyEl.style.maxHeight = 'none';
+    bodyEl.style.height = 'auto';
+    bodyEl.style.flex = 'none'; // flex-1(flex-basis:0%)로 인한 높이 축소 방지
+  }
+
+  try {
+    // 1-2. 스타일 변경이 실제로 레이아웃에 반영될 때까지 대기
+    await waitForNextFrames(2);
+
+    // 2. 이미지 캡처
+    // - cacheBust:false → 매번 폰트/이미지를 네트워크로 재요청하지 않도록 함 (지연 방지)
+    // - pixelRatio:1 → 레티나/고해상도 화면에서 캔버스가 과도하게 커져 느려지는 것 방지
+    const blob = await withTimeout(
+      toBlob(containerEl, { backgroundColor: '#ffffff', cacheBust: false, pixelRatio: 1 }),
+      8000,
+      '이미지 생성'
+    );
+    return blob;
+  } finally {
+    if (opts.restore && originalContainerStyle) {
+      Object.assign(containerEl.style, originalContainerStyle);
+    }
+    if (opts.restore && bodyEl && originalBodyStyle) {
+      Object.assign(bodyEl.style, originalBodyStyle);
+    }
+  }
+}
+
 export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null); // 실제로 스크롤이 걸리는 body 영역
   const [isSharing, setIsSharing] = useState(false);
   const [shareStage, setShareStage] = useState<'idle' | 'capturing' | 'opening-share'>('idle');
+
+  // 사전 캡처(pre-capture) 결과 보관.
+  // navigator.share({files})는 버튼 클릭 이후 아주 짧은 user-gesture 유효 시간 안에
+  // 호출되어야 OS 공유 시트가 뜬다. 클릭한 뒤에 무거운 캡처 작업(폰트 임베딩 등)을
+  // 시작하면 이 시간을 넘겨서 공유 시트가 아예 안 뜨고 AbortError만 나는 문제가 있었다.
+  // → 모달이 열리자마자(화면엔 안 보이게) 미리 이미지를 만들어두고,
+  //   클릭 시엔 이미 준비된 이미지로 최대한 빨리 share()를 호출한다.
+  const [preparedBlob, setPreparedBlob] = useState<Blob | null>(null);
+  const preparedForRef = useRef<string>(''); // 어떤 아이템 목록으로 준비된 blob인지 식별
+
+  const itemsSignature = useMemo(
+    () => selectedItems.map((i) => `${i.id}:${i.quantity}`).join('|'),
+    [selectedItems]
+  );
 
   // Group items by category and compute weights
   const { groupedItems, totalQuantity, totalWeight } = useMemo(() => {
@@ -31,7 +135,7 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
       const weight = Number(item.weight) || 0;
       const itemTotalWeight = qty * weight;
       groups[item.category]!.categoryWeight += itemTotalWeight;
-      
+
       tQty += qty;
       tWeight += itemTotalWeight;
     });
@@ -79,104 +183,85 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
     }
   };
 
-  // 다음 두 프레임까지 기다려서 레이아웃(reflow)이 실제로 반영된 뒤에 진행
-  const waitForNextFrames = (count = 2) =>
-    new Promise<void>((resolve) => {
-      const step = (n: number) => {
-        if (n <= 0) return resolve();
-        requestAnimationFrame(() => step(n - 1));
-      };
-      step(count);
-    });
+  // 모달이 열려있는 동안, 화면 밖(hidden clone)에서 미리 이미지를 만들어둔다.
+  // 실제로 보이는 모달을 건드리지 않으므로 열리는 애니메이션과 시각적으로 충돌하지 않는다.
+  useEffect(() => {
+    if (!isOpen) {
+      setPreparedBlob(null);
+      preparedForRef.current = '';
+      return;
+    }
 
-  // 특정 시간 안에 끝나지 않으면 명확한 에러로 실패시킴 (무한정 "캡처 중..."으로 멈춰있는 것 방지)
-  const withTimeout = <T,>(promise: Promise<T>, ms: number, label: string): Promise<T> => {
-    return new Promise<T>((resolve, reject) => {
-      const timer = setTimeout(() => {
-        reject(new Error(`${label} 시간 초과 (${ms}ms)`));
-      }, ms);
-      promise.then(
-        (v) => {
-          clearTimeout(timer);
-          resolve(v);
-        },
-        (e) => {
-          clearTimeout(timer);
-          reject(e);
+    let cancelled = false;
+
+    // 모달 오픈 애니메이션(250ms)이 끝난 뒤 시작
+    const timer = setTimeout(async () => {
+      const source = modalRef.current;
+      if (!source || cancelled) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'fixed';
+      wrapper.style.top = '0';
+      wrapper.style.left = '-99999px';
+      wrapper.style.zIndex = '-1';
+      wrapper.style.width = `${source.offsetWidth}px`;
+      wrapper.setAttribute('aria-hidden', 'true');
+
+      const clone = source.cloneNode(true) as HTMLDivElement;
+      // framer-motion이 넣어둔 inline transform/opacity 제거 (애니메이션 중간값 캡처 방지)
+      clone.style.transform = 'none';
+      clone.style.opacity = '1';
+
+      const cloneBody = clone.querySelector<HTMLDivElement>('[data-share-scroll="true"]');
+
+      wrapper.appendChild(clone);
+      document.body.appendChild(wrapper);
+
+      try {
+        const blob = await captureNodeToBlob(clone, cloneBody, { restore: false });
+        if (!cancelled) {
+          setPreparedBlob(blob);
+          preparedForRef.current = itemsSignature;
         }
-      );
-    });
-  };
+      } catch (e) {
+        // 사전 캡처는 실패해도 치명적이지 않음: 클릭 시 실시간 캡처로 폴백됨
+        console.warn('사전 캡처 실패(공유 클릭 시 실시간 캡처로 대체됩니다):', e);
+      } finally {
+        document.body.removeChild(wrapper);
+      }
+    }, 350);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, itemsSignature]);
 
   const handleShare = async () => {
     if (!modalRef.current || isSharing) return;
     setIsSharing(true);
-    setShareStage('capturing');
-
-    const containerEl = modalRef.current;
-    const bodyEl = bodyRef.current;
-
-    // 1. 기존 스타일 안전하게 백업 (바깥 컨테이너 + 실제 스크롤 영역 둘 다)
-    const originalContainerStyle = {
-      height: containerEl.style.height,
-      maxHeight: containerEl.style.maxHeight,
-      overflowY: containerEl.style.overflowY,
-    };
-    const originalBodyStyle = bodyEl
-      ? {
-          overflowY: bodyEl.style.overflowY,
-          flex: bodyEl.style.flex,
-          height: bodyEl.style.height,
-          maxHeight: bodyEl.style.maxHeight,
-        }
-      : null;
-
-    const restoreStyles = () => {
-      Object.assign(containerEl.style, originalContainerStyle);
-      if (bodyEl && originalBodyStyle) {
-        Object.assign(bodyEl.style, originalBodyStyle);
-      }
-    };
 
     let blob: Blob | null = null;
 
     try {
-      // 2. 캡처를 위해 전체 높이로 펼치기 (바깥 컨테이너)
-      containerEl.style.height = 'auto';
-      containerEl.style.maxHeight = 'none';
-      containerEl.style.overflowY = 'visible';
+      const hasFreshPreparedBlob = preparedBlob && preparedForRef.current === itemsSignature;
 
-      // 2-1. 실제 스크롤이 걸리는 body 영역도 함께 풀어줘야
-      //      스크롤 아래 잘려있던 항목까지 전부 캡처됨 (핵심 수정 포인트)
-      if (bodyEl) {
-        bodyEl.style.overflowY = 'visible';
-        bodyEl.style.maxHeight = 'none';
-        bodyEl.style.height = 'auto';
-        bodyEl.style.flex = 'none'; // flex-1(flex-basis:0%)로 인한 높이 축소 방지
+      if (hasFreshPreparedBlob) {
+        // 이미 준비된 이미지가 있으면 캡처 단계를 건너뛰고 바로 공유 단계로.
+        // user-gesture 유효 시간을 최대한 아껴서 공유 시트가 확실히 뜨도록 함.
+        blob = preparedBlob;
+      } else {
+        // 준비된 이미지가 없다면(막 열자마자 클릭한 경우 등) 실시간으로 캡처
+        setShareStage('capturing');
+        blob = await captureNodeToBlob(modalRef.current, bodyRef.current, { restore: true });
       }
-
-      // 2-2. 스타일 변경이 실제로 레이아웃에 반영될 때까지 대기
-      await waitForNextFrames(2);
-
-      // 3. 이미지 캡처
-      // - cacheBust:true는 매번 폰트/이미지를 네트워크로 재요청하게 만들어
-      //   배포 도메인에서 수 초~수십 초까지 느려지는 주 원인이 될 수 있음 → false로 변경
-      // - 8초 안에 안 끝나면 타임아웃으로 실패시켜, 사용자 제스처가
-      //   만료된 채로 navigator.share()를 호출하는 상황을 방지
-      blob = await withTimeout(
-        toBlob(containerEl, { backgroundColor: '#ffffff', cacheBust: false }),
-        8000,
-        '이미지 생성'
-      );
-
-      // 4. 캡처 직후 스타일 즉시 복구
-      restoreStyles();
 
       if (!blob) throw new Error('이미지 생성 실패');
 
       const file = new File([blob], 'camping-packing-list.png', { type: 'image/png' });
 
-      // 5. 공유 API 실행 및 실패 시 폴백
+      // 공유 API 실행 및 실패 시 폴백
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         setShareStage('opening-share');
         try {
@@ -186,8 +271,8 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
           });
         } catch (err: any) {
           if (err.name === 'AbortError') {
-            // 사용자가 공유 시트를 스스로 닫은 정상 취소 케이스.
-            // confirm()이 sandbox 환경에서 무시될 수 있으므로 안전 버전 사용.
+            // 사용자가 공유 시트를 스스로 닫았거나, user-gesture 유효 시간을 넘겨
+            // 브라우저가 공유 시트 자체를 띄우지 못한 경우.
             const userWantsToDownload = safeConfirm(
               '공유 창이 닫혔거나 실행 시간이 초과되었습니다. 대신 기기에 이미지를 저장하시겠습니까?'
             );
@@ -206,16 +291,12 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
       }
     } catch (err) {
       console.error('캡처/공유 중 오류 발생:', err);
-      // 치명적 에러 발생 시에도 스타일 확실히 복구
-      restoreStyles();
-      // 캡처는 됐는데 이후 단계에서 실패한 거라면 최소한 다운로드는 시도
       if (blob) {
         downloadFallback(blob);
       } else {
         safeAlert('이미지 생성이 너무 오래 걸려 중단했습니다. 다시 시도해 주세요.');
       }
     } finally {
-      // 6. 성공하든 실패하든 무조건 버튼 로딩 상태 해제
       setIsSharing(false);
       setShareStage('idle');
     }
@@ -250,7 +331,7 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
             </div>
 
             {/* Body */}
-            <div ref={bodyRef} className="p-6 space-y-4 overflow-y-auto flex-1">
+            <div ref={bodyRef} data-share-scroll="true" className="p-6 space-y-4 overflow-y-auto flex-1">
               {(Object.entries(groupedItems) as [GearCategory, { items: GearItem[], categoryWeight: number }][])
                 .sort(([catA], [catB]) => {
                   const indexA = categoryOptions.findIndex(c => c.value === catA);
@@ -293,7 +374,7 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
                   </div>
                 );
               })}
-              
+
               {selectedItems.length === 0 && (
                 <div className="text-center py-8 text-stone-500 font-bold">
                   선택된 장비가 없습니다.
