@@ -62,62 +62,62 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
 
   const handleShare = async () => {
     if (!modalRef.current || isSharing) return;
-    
     setIsSharing(true);
 
     const targetElement = modalRef.current;
-    const originalHeight = targetElement.style.height;
-    const originalMaxHeight = targetElement.style.maxHeight;
-    const originalOverflowY = targetElement.style.overflowY;
+    
+    // 1. 기존 스타일 안전하게 백업
+    const originalStyle = {
+      height: targetElement.style.height,
+      maxHeight: targetElement.style.maxHeight,
+      overflowY: targetElement.style.overflowY,
+    };
 
     try {
-      // 임시 스타일 조정 (스크롤 해제 및 높이 펼침)
+      // 2. 캡처를 위해 전체 높이로 펼치기
       targetElement.style.height = 'auto';
       targetElement.style.maxHeight = 'none';
       targetElement.style.overflowY = 'visible';
 
-      const blob = await toBlob(targetElement, {
-        backgroundColor: '#ffffff',
-        cacheBust: true,
-      });
+      // 3. 무한 로딩 방지를 위한 타임아웃(5초) 적용
+      const blob = await Promise.race([
+        toBlob(targetElement, { backgroundColor: '#ffffff', cacheBust: true }),
+        new Promise<never>((_, reject) => 
+          setTimeout(() => reject(new Error('캡처 시간 초과')), 5000)
+        )
+      ]);
 
-      // 캡처 후 스타일 즉시 복구
-      targetElement.style.height = originalHeight; 
-      targetElement.style.maxHeight = originalMaxHeight; 
-      targetElement.style.overflowY = originalOverflowY;
+      // 4. 캡처 직후 스타일 즉시 복구
+      Object.assign(targetElement.style, originalStyle);
 
-      if (!blob) {
-        throw new Error('Canvas to Blob failed');
-      }
+      if (!blob) throw new Error('이미지 생성 실패');
 
       const file = new File([blob], 'camping-packing-list.png', { type: 'image/png' });
 
+      // 5. 공유 API 실행 및 실패 시 폴백
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         try {
           await navigator.share({
             title: '캠핑 패킹 리스트',
             files: [file],
           });
-        } catch (err: any) {
-          if (err.name !== 'AbortError') {
-            alert('공유 실패! PC에서는 이미지가 다운로드됩니다.');
-            downloadFallback(blob);
-          }
+        } catch (err) {
+          console.warn('공유 창 열기 실패, 다운로드로 대체:', err);
+          // 샌드박스 환경이나 제스처 만료로 공유 창이 안 열리면 즉시 다운로드!
+          alert('공유 창을 띄울 수 없어 기기에 이미지를 저장합니다.');
+          downloadFallback(blob);
         }
       } else {
-        // Fallback to download
-        alert('공유 실패! PC에서는 이미지가 다운로드됩니다.');
+        alert('현재 브라우저에서는 공유 기능을 지원하지 않아 이미지를 저장합니다.');
         downloadFallback(blob);
       }
     } catch (err) {
-      console.error('Failed to generate image', err);
-      alert('이미지 캡처 중 오류가 발생했습니다. 브라우저 호환성 및 HTTPS 연결을 확인해 주세요.');
-      
-      // 에러 발생 시에도 스타일 복구
-      targetElement.style.height = originalHeight; 
-      targetElement.style.maxHeight = originalMaxHeight; 
-      targetElement.style.overflowY = originalOverflowY;
+      console.error('캡처/공유 중 오류 발생:', err);
+      // 치명적 에러 발생 시에도 스타일 확실히 복구
+      Object.assign(targetElement.style, originalStyle);
+      alert('이미지 처리 중 오류가 발생했습니다. 다시 시도해 주세요.');
     } finally {
+      // 6. 성공하든 실패하든 무조건 버튼 로딩 상태 해제
       setIsSharing(false);
     }
   };
