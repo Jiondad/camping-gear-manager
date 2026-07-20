@@ -339,16 +339,15 @@ export default function App() {
 
 
   const stats = useMemo(() => {
-    const activeList = gearList.filter(item => item.status === '보유');
-    const totalCount = activeList.reduce((acc, curr) => acc + curr.quantity, 0);
-    const totalWeight = activeList.reduce((acc, curr) => acc + (curr.weight * curr.quantity), 0);
-    const totalPrice = activeList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
+    const totalCount = filteredGear.reduce((acc, curr) => acc + curr.quantity, 0);
+    const totalWeight = filteredGear.reduce((acc, curr) => acc + curr.weight, 0);
+    const totalPrice = filteredGear.reduce((acc, curr) => acc + curr.price, 0);
     return {
       totalCount,
       totalWeight: totalWeight.toFixed(1),
       totalPrice: totalPrice.toLocaleString(),
     };
-  }, [gearList]);
+  }, [filteredGear]);
 
   return (
     <div className="relative h-[100dvh] w-full overflow-hidden bg-gradient-to-br from-[#faf9f6] via-[#f5ede0] to-[#eae0cc] p-1 md:p-4 lg:p-6 flex flex-col items-center justify-center select-none">

@@ -133,11 +133,10 @@ export default function LetsGoModal({ isOpen, onClose, selectedItems }: LetsGoMo
       groups[item.category]!.items.push(item);
       const qty = Number(item.quantity) || 0;
       const weight = Number(item.weight) || 0;
-      const itemTotalWeight = qty * weight;
-      groups[item.category]!.categoryWeight += itemTotalWeight;
+      groups[item.category]!.categoryWeight += weight;
 
       tQty += qty;
-      tWeight += itemTotalWeight;
+      tWeight += weight;
     });
 
     return { groupedItems: groups, totalQuantity: tQty, totalWeight: tWeight };
