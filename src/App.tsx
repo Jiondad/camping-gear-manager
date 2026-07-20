@@ -164,9 +164,9 @@ export default function App() {
     const categoryOrder: GearCategory[] = ['tent', 'bedding', 'furniture', 'lighting', 'cooking', 'seasonal', 'etc'];
     const filtered = gearList.filter(item => {
       const matchSearch =
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.model.toLowerCase().includes(searchTerm.toLowerCase());
+        String(item.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(item.brand || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(item.model || '').toLowerCase().includes(searchTerm.toLowerCase());
       
       const matchCat = categoryFilter === 'all' || item.category === categoryFilter;
       const matchStatus = statusFilter === 'all' || item.status === statusFilter;
