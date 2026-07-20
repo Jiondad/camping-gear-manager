@@ -932,7 +932,7 @@ export default function App() {
               <div className="flex items-center gap-3 font-mono text-[11px]">
                 <span>총 중량: <strong className="text-emerald-700 font-bold">{stats.totalWeight} kg</strong></span>
                 <span className="text-[#cbd5c8]">|</span>
-                <span>총 자산: <strong className="text-stone-950 font-black">₩{stats.totalPrice}</strong></span>
+                <span>총 금액: <strong className="text-stone-950 font-black">₩{stats.totalPrice}</strong></span>
               </div>
             </div>
 
