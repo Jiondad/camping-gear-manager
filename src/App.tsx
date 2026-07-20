@@ -603,7 +603,7 @@ export default function App() {
                   transition={{ duration: 0.25, ease: 'easeInOut' }}
                   className="overflow-hidden"
                 >
-                  <div className="flex overflow-x-auto pb-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-3 pt-1">
+                  <div className="flex overflow-x-auto pb-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-3 pt-1 px-1 -mx-1 md:overflow-visible">
                     {summaries.map((sum) => {
                       const isActive = categoryFilter === sum.id;
                       
