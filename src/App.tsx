@@ -259,16 +259,6 @@ export default function App() {
     setSelectedIds([]);
   };
 
-  // Reset gear to factory default
-  const handleResetDefault = () => {
-    if (window.confirm('장비 리스트를 초기 상태로 복구하시겠습니까? 추가한 모든 변경사항이 초기화됩니다.')) {
-      setGearList(DEFAULT_GEAR);
-      syncWithBackend(DEFAULT_GEAR);
-      setSelectedIds([]);
-      triggerToast('초기 대장 데이터로 복구되었습니다.', 'info');
-    }
-  };
-
   const handleDeleteItem = (id: string) => {
     if (window.confirm('이 장비를 목록에서 완전히 삭제하시겠습니까?')) {
       const updatedList = gearList.filter(item => item.id !== id);
@@ -1061,32 +1051,6 @@ export default function App() {
                   )}
                 </tbody>
               </table>
-            </div>
-
-            {/* List Footer / Table Controls */}
-            <div className="p-3 bg-khaki-900 border-t border-khaki-800 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-khaki-400 shrink-0">
-              <p className="font-sans">
-                현재 대장에 등록된 품목수: <strong className="text-white">{filteredGear.length}</strong> / 전체 <strong className="text-white">{gearList.length}</strong>개
-              </p>
-              
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleResetDefault}
-                  className="px-2.5 py-1 bg-khaki-800 hover:bg-khaki-700 border border-khaki-700 text-khaki-300 hover:text-white rounded-lg transition-colors text-[11px]"
-                  title="기본 장비 데이터로 초기화"
-                >
-                  기본값 복구
-                </button>
-                
-                {selectedIds.length > 0 && (
-                  <button
-                    onClick={() => setSelectedIds([])}
-                    className="px-2.5 py-1 bg-khaki-800 hover:bg-khaki-700 border border-khaki-700 text-tan-300 rounded-lg transition-colors text-[11px]"
-                  >
-                    선택 해제 ({selectedIds.length})
-                  </button>
-                )}
-              </div>
             </div>
           </div>
         </div>
