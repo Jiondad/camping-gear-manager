@@ -407,7 +407,56 @@ export default function App() {
       {/* ============================================================== */}
       {/* CAMPING DECORATIONS SURROUNDING THE MONITOR */}
       {/* ============================================================== */}
-      
+      {/* ============================================================== */}
+      {/* CAMPING BRAND STICKERS (DESK DECORATION) */}
+      {/* ============================================================== */}
+      <div className="hidden xl:block absolute inset-0 pointer-events-none overflow-hidden z-30 select-none">
+        
+        {/* Left Side Stickers */}
+        <div className="absolute left-[2.5%] top-[16%] -rotate-12 bg-[#cc0000] text-white px-5 py-2 font-sans font-black tracking-tighter text-base rounded-md shadow-lg opacity-95 border border-white/20">
+          Coleman
+        </div>
+        <div className="absolute left-[3.5%] top-[43%] rotate-6 bg-white text-stone-900 px-4 py-1.5 font-serif font-bold tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-stone-200">
+          * snow peak
+        </div>
+        <div className="absolute left-[1.5%] top-[57%] -rotate-6 bg-black text-white px-5 py-2 font-sans font-black italic tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-stone-800">
+          Helinox
+        </div>
+        <div className="absolute left-[4%] top-[71%] rotate-12 bg-[#ff5a00] text-white px-4 py-1.5 font-sans font-bold tracking-tight text-xs rounded-md shadow-lg opacity-95">
+          MINIMAL WORKS
+        </div>
+        {/* NORDISK 스티커 (기존 코드 참고용) */}
+        <div className="absolute left-[2%] top-[86%] -rotate-3 bg-[#e0d6c8] text-stone-800 px-4 py-1.5 font-serif font-bold tracking-widest text-xs rounded-md shadow-lg border border-[#c4b59d] opacity-95 flex items-center gap-1.5">
+          🐻 NORDISK
+        </div>
+
+        {/* 👇 여기에 코베아 스티커를 추가해 주세요 👇 */}
+        <div className="absolute left-[3.5%] top-[94%] rotate-6 bg-[#3b332c] text-[#ff8c00] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-[#ff8c00]/30">
+          KOVEA
+        </div>
+
+        {/* Right Side Stickers */}
+        <div className="absolute right-[2.5%] top-[25%] rotate-12 bg-white text-[#cc0000] px-4 py-1.5 font-serif font-black tracking-widest text-xs rounded-md shadow-lg border-2 border-[#cc0000] opacity-95">
+          HILLEBERG
+        </div>
+        <div className="absolute right-[4%] top-[40%] -rotate-6 bg-[#006600] text-white px-4 py-1.5 font-sans font-bold tracking-wider text-xs rounded-md shadow-lg opacity-95 flex items-center gap-1.5">
+          🍁 LOGOS
+        </div>
+        <div className="absolute right-[1.5%] top-[55%] rotate-3 bg-stone-100 text-stone-800 px-3.5 py-1.5 font-mono font-bold tracking-tighter text-xs rounded-md shadow-lg opacity-95 border border-stone-300">
+          tent-Mark DESIGNS
+        </div>
+        <div className="absolute right-[4.5%] top-[70%] -rotate-12 bg-[#f4e087] text-stone-900 px-4 py-1.5 font-sans font-black tracking-widest text-sm rounded-md shadow-lg opacity-95 flex items-center gap-1.5">
+          🐰 DOD
+        </div>
+        <div className="absolute right-[2%] top-[85%] rotate-6 bg-white text-[#cc0000] px-5 py-2 font-sans font-black tracking-tighter text-base rounded-full shadow-lg border-2 border-[#cc0000] opacity-95 flex items-center gap-1">
+          🐧 CHUMS
+        </div>
+        <div className="absolute right-[5%] top-[94%] -rotate-6 bg-black text-[#00a0e9] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border-b-2 border-[#00a0e9]">
+          NEMO
+        </div>
+      </div>
+
+
       {/* Left Decoration: Antique Brass Compass & Rope Loop */}
       <div className="hidden 2xl:flex absolute left-2 xl:left-4 top-16 flex-col items-center gap-6 z-20">
         {/* Rope Coil */}
