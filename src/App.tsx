@@ -517,66 +517,93 @@ export default function App() {
         </motion.div>
       </div>
 
-      {/* Right Decoration: Vintage Gasoline Lantern */}
+        {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
       <div className="hidden 2xl:flex absolute right-2 xl:right-4 top-12 flex-col items-center gap-4 z-20">
         <motion.div
           whileHover={{ scale: 1.03 }}
           onClick={() => setLanternOn(p => !p)}
-          className="cursor-pointer flex flex-col items-center group"
-          title="작동하는 클래식 가솔린 랜턴 (클릭시 점등)"
+          className="cursor-pointer flex flex-col items-center group relative"
+          title="작동하는 콜맨 크리스마스 한정판 랜턴 (클릭시 점등)"
         >
-          {/* Metal Wire loop on top */}
-          <div className="w-12 h-10 border-4 border-stone-400 border-b-0 rounded-t-full -mb-1 group-hover:border-emerald-400 transition-colors" />
+          {/* Bail Handle (콜맨 특유의 커다란 와이어 손잡이) */}
+          <div className="absolute top-6 -left-6 -right-6 bottom-16 border-[2.5px] border-stone-400/80 rounded-b-[3rem] rounded-t-[2.5rem] pointer-events-none transition-colors group-hover:border-stone-300 z-0" />
 
-          {/* Lantern Top Hood */}
-          <div className="w-16 h-4 bg-gradient-to-r from-emerald-700 via-[#8ba682] to-emerald-800 rounded-t-md shadow-md border-b border-stone-300" />
-
-          {/* Glass Chamber with Flame */}
-          <div className="w-12 h-20 bg-amber-500/10 border-x-2 border-amber-800/80 relative flex items-center justify-center overflow-hidden">
-            {/* Glass Highlights */}
-            <div className="absolute inset-y-0 left-1 w-2 bg-white/20 blur-[1px] pointer-events-none" />
-            <div className="absolute inset-y-0 right-1.5 w-1 bg-white/10 blur-[1px] pointer-events-none" />
-
-            {/* Protective metal cage lines */}
-            <div className="absolute inset-y-0 left-1/4 w-0.5 bg-amber-800/50" />
-            <div className="absolute inset-y-0 right-1/4 w-0.5 bg-amber-800/50" />
-            <div className="absolute inset-x-0 top-1/3 h-0.5 bg-amber-800/50" />
-            <div className="absolute inset-x-0 bottom-1/3 h-0.5 bg-amber-800/50" />
-
-            {/* Flame */}
-            <AnimatePresence>
-              {lanternOn && (
-                <motion.div
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ 
-                    scale: [1, 1.2, 1.05, 1.15, 1], 
-                    opacity: [0.9, 1, 0.95, 1, 0.9] 
-                  }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 1.5,
-                    ease: 'easeInOut' 
-                  }}
-                  className="w-5 h-8 bg-gradient-to-t from-red-500 via-amber-400 to-yellow-100 rounded-full blur-[2px] shadow-[0_0_20px_10px_rgba(251,191,36,0.6)] flex items-center justify-center relative"
-                >
-                  <div className="w-2.5 h-4 bg-white rounded-full blur-[1px] absolute bottom-1" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-            {!lanternOn && (
-              <div className="w-1.5 h-3 bg-neutral-700 rounded-full absolute bottom-4" />
-            )}
+          {/* Metal Wire loop on top (상단 고정 너트) */}
+          <div className="w-10 h-8 border-4 border-stone-400 border-b-0 rounded-t-full -mb-1 group-hover:border-red-400 transition-colors relative z-10">
+            <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-2 bg-gradient-to-b from-stone-200 to-stone-400 rounded-sm border border-stone-500 shadow-sm" />
           </div>
 
-          {/* Brass fuel body */}
-          <div className="w-20 h-14 bg-gradient-to-b from-emerald-600 via-[#8ba682] to-emerald-700 rounded-b-xl shadow-md flex flex-col items-center justify-start py-2 border-t border-emerald-800/20">
+          {/* Lantern Top Hood (Red Ventilator - 챙과 볼륨 확장) */}
+          <div className="w-20 h-6 bg-gradient-to-b from-[#a30b0b] to-[#7a0606] rounded-t-xl shadow-md border-b border-[#540202] flex flex-col items-center justify-end relative z-20">
+            <div className="w-24 h-2.5 bg-gradient-to-r from-[#8a0808] via-[#e31212] to-[#8a0808] rounded-full -mb-1.5 shadow-sm border border-[#540202]" />
+          </div>
+
+          {/* Glass Chamber & Frame (양옆 수직 프레임 철사 추가 및 유리볼륨 업) */}
+          <div className="relative mt-1.5 z-10">
+            {/* 양옆 수직 철사 (Frame) */}
+            <div className="absolute -left-2 top-0 bottom-0 w-1.5 bg-gradient-to-r from-stone-400 to-stone-300 rounded-full shadow-sm z-20" />
+            <div className="absolute -right-2 top-0 bottom-0 w-1.5 bg-gradient-to-r from-stone-300 to-stone-400 rounded-full shadow-sm z-20" />
+
+            <div className="w-16 h-20 bg-amber-500/10 border-x border-stone-300/80 relative flex items-center justify-center overflow-hidden rounded-xl">
+              {/* Glass Highlights */}
+              <div className="absolute inset-y-0 left-1.5 w-2 bg-white/30 blur-[1px] pointer-events-none" />
+              <div className="absolute inset-y-0 right-2 w-1 bg-white/20 blur-[1px] pointer-events-none" />
+
+              {/* Generator tube (굵어진 은색 기화기 관) */}
+              <div className="absolute inset-y-0 left-1/3 w-2 bg-gradient-to-r from-stone-400 to-stone-200" />
+              
+              {/* Flame (더 풍성해진 불꽃) */}
+              <AnimatePresence>
+                {lanternOn && (
+                  <motion.div
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ 
+                      scale: [1, 1.2, 1.05, 1.15, 1], 
+                      opacity: [0.9, 1, 0.95, 1, 0.9] 
+                    }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 1.5,
+                      ease: 'easeInOut' 
+                    }}
+                    className="w-8 h-10 bg-gradient-to-t from-yellow-100 via-amber-300 to-transparent rounded-full blur-[2px] shadow-[0_0_35px_15px_rgba(251,191,36,0.85)] flex items-center justify-center relative left-1"
+                  >
+                    <div className="w-3.5 h-6 bg-white rounded-full blur-[1px] absolute bottom-1" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              {!lanternOn && (
+                <div className="w-3 h-6 bg-neutral-200/60 rounded-full absolute bottom-4 left-[55%]" />
+              )}
+            </div>
+          </div>
+
+          {/* Silver Collar (은색 넥카라 부분 - 볼륨 업) */}
+          <div className="w-20 h-4 bg-gradient-to-r from-stone-500 via-stone-200 to-stone-500 border-y border-stone-400 shadow-sm z-20 rounded-sm" />
+
+          {/* Red fuel body (콜맨 레드 연료통 - 빵빵한 곡선과 뚱뚱한 볼륨감) */}
+          <div className="w-24 h-16 bg-gradient-to-b from-[#e31212] via-[#bd0b0b] to-[#7a0606] rounded-b-xl rounded-t-3xl shadow-lg flex flex-col items-center justify-start pt-2 pb-2 border border-[#540202]/30 relative -mt-1 z-10">
+            
+            {/* Pump knob */}
+            <div className="absolute -left-1.5 top-5 w-3 h-3.5 bg-gradient-to-r from-[#a30b0b] to-[#e31212] rounded-l-sm border border-[#540202]" />
+            
+            {/* Fuel Cap */}
+            <div className="absolute -right-1.5 top-6 w-2.5 h-3 bg-gradient-to-b from-stone-200 to-stone-400 rounded-r-sm border border-stone-500" />
+
             {/* Control valve knob */}
-            <div className="w-4 h-4 rounded-full bg-emerald-900 border border-emerald-400/50 cursor-pointer shadow-md -mt-1 group-hover:rotate-45 transition-transform duration-300" />
-            <span className="font-mono text-[8px] text-emerald-100/60 mt-1 uppercase tracking-widest font-bold">Gasoline</span>
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-200 to-stone-400 border border-stone-500 shadow-inner flex items-center justify-center mt-0.5 relative z-20">
+              <div className="absolute inset-1 rounded-full border border-dotted border-stone-600/30" />
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-[#a30b0b] to-[#e31212] border border-[#540202] cursor-pointer shadow-md group-hover:rotate-90 transition-transform duration-300" />
+            </div>
+            
+            {/* Coleman Logo */}
+            <div className="mt-1 border-[1.5px] border-white rounded-[4px] px-2 py-0.5 flex items-center justify-center bg-[#bd0b0b] shadow-sm z-20">
+              <span className="font-serif italic text-[9px] text-white tracking-widest font-bold leading-none pr-0.5">Coleman</span>
+            </div>
           </div>
           
-          <span className="text-[10px] font-hand text-emerald-600 mt-2 font-bold select-none group-hover:text-emerald-500 transition-colors">
+          <span className="text-[10px] font-hand text-[#cc0000] mt-2 font-bold select-none group-hover:text-[#ff3333] transition-colors relative z-20">
             {lanternOn ? '💡 click to turn OFF' : '🔥 click to turn ON'}
           </span>
         </motion.div>
