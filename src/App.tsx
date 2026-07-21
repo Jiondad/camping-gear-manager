@@ -517,7 +517,7 @@ export default function App() {
         </motion.div>
       </div>
 
-      {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
+        {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
       <div className="hidden 2xl:flex absolute right-10 2xl:right-16 top-12 flex-col items-center gap-4 z-20">
         <motion.div
           whileHover={{ scale: 1.03 }}
@@ -608,31 +608,44 @@ export default function App() {
           </span>
         </motion.div>
 
-        {/* Small tin mug decoration */}
-        <div className="w-20 h-16 bg-gradient-to-r from-rose-200 to-rose-100 border border-rose-300 rounded-b-lg relative mt-8 shadow-md" title="달콤한 코코아가 들어있는 핑크 캠핑 머그">
-          {/* Mug handle */}
-          <div className="absolute right-0 top-3 -mr-3 w-4 h-9 border-4 border-l-0 border-rose-300 rounded-r-lg" />
-          {/* Coffee line */}
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-[#5c3a21] rounded-t-sm" />
-          <div className="absolute inset-0 flex flex-col items-center justify-end p-1 text-[8px] font-mono text-rose-500/80 font-bold">
-            <span>DEER CAMP</span>
+        {/* Right Decoration: Snow Peak Titanium Mug */}
+        <div className="w-20 h-20 bg-gradient-to-br from-zinc-300 via-zinc-400 to-zinc-500 border border-zinc-400/80 rounded-b-[10px] relative mt-8 shadow-md" title="따뜻한 커피가 담긴 스노우피크 티타늄 머그">
+          
+          {/* 🌟 수정된 부분: Folding Handle (Single Loop 티타늄 폴딩 손잡이) */}
+          <div className="absolute right-0 top-3 bottom-3 -mr-[1.35rem] w-[1.4rem] border-[2.5px] border-l-0 border-zinc-300 rounded-r-2xl shadow-sm z-0" />
+          
+          {/* Bracket for handle (손잡이 고정 브라켓 - 손잡이 안쪽을 가려주는 역할) */}
+          <div className="absolute right-0 top-1.5 bottom-1.5 w-1.5 bg-gradient-to-b from-zinc-400 to-zinc-500 rounded-l-sm border-l border-zinc-300/50 z-10" />
+          
+          {/* Mug Rim (컵 둥근 테두리) */}
+          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-300 rounded-t-sm border-b border-zinc-500/50 z-10" />
+          
+          {/* Coffee line inside (커피 디테일) */}
+          <div className="absolute top-1 inset-x-0 h-1 bg-[#4a2e1b]/80" />
+          
+          {/* Logo Details (스노우피크 로고 & 레터링) */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pt-2 z-10">
+            <span className="text-zinc-800 text-[26px] font-black leading-none mb-0.5 mt-1 select-none">*</span>
+            <span className="font-serif font-extrabold text-[11px] text-zinc-900 tracking-tighter leading-none select-none">snow peak</span>
+            <span className="font-mono text-[4.5px] text-zinc-700 tracking-widest mt-1.5 font-bold uppercase select-none">Titanium</span>
           </div>
-          {/* Floating Steam lines */}
-          <div className="absolute -top-6 left-6 w-8 h-6 flex gap-1 pointer-events-none overflow-hidden">
+
+          {/* Floating Steam lines (모락모락 피어나는 김) */}
+          <div className="absolute -top-7 left-6 w-8 h-8 flex gap-1 pointer-events-none overflow-hidden z-10">
             <motion.div
-              animate={{ y: [0, -10, 0], opacity: [0, 0.8, 0] }}
+              animate={{ y: [0, -10, 0], opacity: [0, 0.7, 0] }}
               transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-              className="w-0.5 h-4 bg-white/60 rounded-full"
+              className="w-0.5 h-4 bg-zinc-100/80 rounded-full"
             />
             <motion.div
-              animate={{ y: [0, -12, 0], opacity: [0, 0.7, 0] }}
+              animate={{ y: [0, -12, 0], opacity: [0, 0.6, 0] }}
               transition={{ repeat: Infinity, duration: 2.3, delay: 0.4, ease: 'easeInOut' }}
-              className="w-0.5 h-4 bg-white/60 rounded-full"
+              className="w-0.5 h-5 bg-zinc-100/80 rounded-full"
             />
             <motion.div
-              animate={{ y: [0, -8, 0], opacity: [0, 0.6, 0] }}
+              animate={{ y: [0, -8, 0], opacity: [0, 0.5, 0] }}
               transition={{ repeat: Infinity, duration: 1.8, delay: 0.8, ease: 'easeInOut' }}
-              className="w-0.5 h-4 bg-white/60 rounded-full"
+              className="w-0.5 h-4 bg-zinc-100/80 rounded-full"
             />
           </div>
         </div>
