@@ -746,9 +746,6 @@ export default function App() {
 
                             {/* Handwritten text inside */}
                             <div className="mt-1 text-left">
-                              <p className="font-sans text-[10px] text-stone-500 font-bold tracking-tight leading-none mb-0.5">
-                                {sum.label}
-                              </p>
                               <p className={`font-hand text-lg font-black ${theme.countText} leading-none`}>
                                 {sum.countText}
                               </p>
