@@ -578,13 +578,13 @@ export default function App() {
         {/* ============================================================== */}
         {/* INNER CONTAINER (COARSE DARK ALUMINUM FRAME FINISH) */}
         {/* ============================================================== */}
-        <div className="p-2 md:p-6 bg-[#f4f7f3] w-full h-full flex flex-col flex-1 min-h-0 gap-3 md:gap-6 text-stone-800 border border-[#cbd5c8] overflow-hidden">
+        <div className="p-2 md:p-3 bg-[#f4f7f3] w-full h-full flex flex-col flex-1 min-h-0 gap-1.5 md:gap-2 text-stone-800 border border-[#cbd5c8] overflow-hidden">
           
           {/* 1. APPLET TITLE BAR */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b-2 border-[#cbd5c8] shrink-0">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 pb-1.5 md:pb-2 border-b-2 border-[#cbd5c8] shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-[#5aa880] text-white shadow-sm border border-[#488e6a]">
-                <Tent className="w-7 h-7" />
+              <div className="p-2 rounded-xl bg-[#5aa880] text-white shadow-sm border border-[#488e6a]">
+                <Tent className="w-6 h-6" />
               </div>
               <div>
                 <h1 className="font-sans font-black text-xl md:text-2xl tracking-tight text-stone-900 flex items-center gap-2 break-keep">
@@ -600,7 +600,7 @@ export default function App() {
             </div>
 
             {/* Quick clock & stats */}
-            <div className="flex items-center gap-3 bg-white/90 px-4 py-2 rounded-xl border border-[#cbd5c8] text-xs text-stone-600 shadow-sm">
+            <div className="flex items-center gap-3 bg-white/90 px-4 py-1.5 rounded-xl border border-[#cbd5c8] text-xs text-stone-600 shadow-sm">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-amber-600" />
                 <span className="font-mono">{formattedDate}</span>
@@ -617,7 +617,7 @@ export default function App() {
           {/* 1. CATEGORY SUMMARY CARDS (PASTEL FABRIC PATCHES) */}
           {/* ============================================================== */}
           <div className="shrink-0">
-            <h2 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-3 font-mono flex items-center gap-1.5 select-none">
+            <h2 className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1 font-mono flex items-center gap-1.5 select-none">
               <span>카테고리 요약 정보</span>
               <span className="h-px bg-stone-200 flex-1"></span>
               <button
@@ -647,7 +647,7 @@ export default function App() {
                   transition={{ duration: 0.25, ease: 'easeInOut' }}
                   className="overflow-hidden"
                 >
-                  <div className="flex overflow-x-auto pb-3 pt-2 px-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-3 md:overflow-visible">
+                  <div className="flex overflow-x-auto pb-1.5 pt-1 px-2 snap-x md:grid md:grid-cols-4 xl:grid-cols-7 gap-2 md:overflow-visible">
                     {summaries.map((sum) => {
                       const isActive = categoryFilter === sum.id;
                       
@@ -730,7 +730,7 @@ export default function App() {
                           id={`summary-card-${sum.id}`}
                         >
                           {/* Fabric patch stitched borders */}
-                          <div className={`border border-dashed border-white m-[2px] rounded-lg p-3.5 flex flex-col justify-between h-24 bg-gradient-to-br ${theme.bg} ${theme.border} shadow-inner relative`}>
+                          <div className={`border border-dashed border-white m-[2px] rounded-lg p-2.5 flex flex-col justify-between h-[4.5rem] bg-gradient-to-br ${theme.bg} ${theme.border} shadow-inner relative`}>
                             {/* Soft canvas weave texture overlay */}
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4),transparent)] pointer-events-none rounded-lg" />
                             
@@ -745,11 +745,11 @@ export default function App() {
                             </div>
 
                             {/* Handwritten text inside */}
-                            <div className="mt-2 text-left">
-                              <p className="font-sans text-[10px] text-stone-500 font-bold tracking-tight leading-none mb-1">
+                            <div className="mt-1 text-left">
+                              <p className="font-sans text-[10px] text-stone-500 font-bold tracking-tight leading-none mb-0.5">
                                 {sum.label}
                               </p>
-                              <p className={`font-hand text-xl font-black ${theme.countText} leading-none`}>
+                              <p className={`font-hand text-lg font-black ${theme.countText} leading-none`}>
                                 {sum.countText}
                               </p>
                             </div>
@@ -771,7 +771,7 @@ export default function App() {
           {/* ============================================================== */}
           {/* TOOLBAR: SEARCH & FILTERS AND MANAGEMENT BUTTONS */}
           {/* ============================================================== */}
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-3.5 bg-white/95 border border-[#cbd5c8] rounded-2xl shadow-sm shrink-0">
+          <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2 p-2 bg-white/95 border border-[#cbd5c8] rounded-2xl shadow-sm shrink-0">
             
             {/* Search and Filters */}
             <div className="flex flex-wrap items-center gap-2.5 flex-1">
@@ -863,7 +863,7 @@ export default function App() {
               {/* Let's Go */}
               <button
                 onClick={handleLetsGoClick}
-                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#a78bfa] hover:bg-[#8b5cf6] border border-[#7c3aed] active:scale-95 transition-all text-white rounded-full shadow-sm mr-2"
+                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-1.5 bg-[#a78bfa] hover:bg-[#8b5cf6] border border-[#7c3aed] active:scale-95 transition-all text-white rounded-full shadow-sm mr-2"
                 title="선택된 장비 패킹 리스트 보기"
               >
                 <CarFront className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
@@ -873,7 +873,7 @@ export default function App() {
               {/* 신규등록 */}
               <button
                 onClick={handleAddNew}
-                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-2 bg-[#5aa880] hover:bg-[#4d9670] border border-[#4a8f6a] active:scale-95 transition-all text-white rounded-full shadow-sm"
+                className="group relative cursor-pointer flex items-center gap-1.5 px-4 py-1.5 bg-[#5aa880] hover:bg-[#4d9670] border border-[#4a8f6a] active:scale-95 transition-all text-white rounded-full shadow-sm"
                 title="새 장비 등록"
               >
                 <Plus className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
@@ -916,7 +916,7 @@ export default function App() {
           <div className="flex-1 flex flex-col min-h-0 overflow-hidden border border-[#cbd5c8] rounded-xl shadow-sm bg-white">
             
             {/* List Info Bar */}
-            <div className="px-5 py-3 bg-[#f8faf7] border-b border-[#cbd5c8] text-xs flex justify-between items-center flex-wrap gap-2 text-stone-600 shrink-0">
+            <div className="px-5 py-2 bg-[#f8faf7] border-b border-[#cbd5c8] text-xs flex justify-between items-center flex-wrap gap-2 text-stone-600 shrink-0">
               <div className="flex items-center gap-2 font-sans font-medium">
                 <span className="w-2 h-2 rounded-full bg-[#5aa880]"></span>
                 <span>
@@ -943,7 +943,7 @@ export default function App() {
                 {/* Table Header - Clean Sage Ivory look */}
                 <thead>
                   <tr className="bg-[#eef3ec] text-[#4a6648] text-xs font-bold uppercase tracking-wider font-sans border-b border-[#cbd5c8] sticky top-0 z-10 shadow-sm">
-                    <th className="py-3.5 px-4 w-12 text-center">
+                    <th className="py-2 px-3.5 w-12 text-center">
                       <button
                         onClick={toggleSelectAll}
                         className="p-1 rounded bg-white border border-[#cbd5c8] text-[#5aa880] hover:bg-[#e6ece4] transition-colors"
@@ -956,15 +956,15 @@ export default function App() {
                         )}
                       </button>
                     </th>
-                    <th className="py-3.5 px-4 w-36 text-center whitespace-nowrap">카테고리</th>
-                    <th className="py-3.5 px-4 min-w-[280px]">물품명</th>
-                    <th className="py-3.5 px-4 w-40">브랜드/제조사</th>
-                    <th className="py-3.5 px-4 min-w-[200px]">규격/모델명</th>
-                    <th className="py-3.5 px-4 w-20 text-center">수량</th>
-                    <th className="py-3.5 px-4 w-24 text-center">중량(kg)</th>
-                    <th className="py-3.5 px-4 w-36 text-right">구입금액(₩)</th>
-                    <th className="py-3.5 px-4 w-32 text-center">상태</th>
-                    <th className="py-3.5 px-4 w-20 text-center">관리</th>
+                    <th className="py-2 px-3.5 w-36 text-center whitespace-nowrap">카테고리</th>
+                    <th className="py-2 px-3.5 min-w-[280px]">물품명</th>
+                    <th className="py-2 px-3.5 w-40">브랜드/제조사</th>
+                    <th className="py-2 px-3.5 min-w-[200px]">규격/모델명</th>
+                    <th className="py-2 px-3.5 w-20 text-center">수량</th>
+                    <th className="py-2 px-3.5 w-24 text-center">중량(kg)</th>
+                    <th className="py-2 px-3.5 w-36 text-right">구입금액(₩)</th>
+                    <th className="py-2 px-3.5 w-32 text-center">상태</th>
+                    <th className="py-2 px-3.5 w-20 text-center">관리</th>
                   </tr>
                 </thead>
 
@@ -982,7 +982,7 @@ export default function App() {
                           }`}
                         >
                           {/* Selection Checkbox */}
-                          <td className="py-3 px-4 text-center">
+                          <td className="py-2 px-3.5 text-center">
                             <button
                               onClick={() => toggleSelect(item.id)}
                               className="p-1 rounded text-stone-500 hover:text-stone-800 transition-colors inline-block"
@@ -996,7 +996,7 @@ export default function App() {
                           </td>
 
                           {/* Category Badge */}
-                          <td className="py-3 px-4 text-center">
+                          <td className="py-2 px-3.5 text-center">
                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border shadow-sm whitespace-nowrap ${getCategoryBadgeStyle(item.category)}`}>
                               {renderCategoryIcon(item.category, "w-3.5 h-3.5")}
                               {categoryLabels[item.category]}
@@ -1004,46 +1004,46 @@ export default function App() {
                           </td>
 
                           {/* Item Name */}
-                          <td className="py-3 px-4">
+                          <td className="py-2 px-3.5">
                             <span className="font-sans font-extrabold text-[13px] text-stone-900 whitespace-pre-wrap leading-tight block">
                               {item.name}
                             </span>
                           </td>
 
                           {/* Brand */}
-                          <td className="py-3 px-4 font-sans text-xs font-semibold text-stone-600">
+                          <td className="py-2 px-3.5 font-sans text-xs font-semibold text-stone-600">
                             {item.brand}
                           </td>
 
                           {/* Specs */}
-                          <td className="py-3 px-4 font-mono text-[11px] text-stone-500 whitespace-pre-wrap leading-tight">
+                          <td className="py-2 px-3.5 font-mono text-[11px] text-stone-500 whitespace-pre-wrap leading-tight">
                             {item.model}
                           </td>
 
                           {/* Quantity */}
-                          <td className="py-3 px-4 text-center font-mono text-xs font-bold text-stone-900">
+                          <td className="py-2 px-3.5 text-center font-mono text-xs font-bold text-stone-900">
                             {item.quantity}
                           </td>
 
                           {/* Weight */}
-                          <td className="py-3 px-4 text-center font-mono text-xs text-stone-500">
+                          <td className="py-2 px-3.5 text-center font-mono text-xs text-stone-500">
                             {item.weight > 0 ? `${item.weight.toFixed(1)}kg` : '0.0kg'}
                           </td>
 
                           {/* Price */}
-                          <td className="py-3 px-4 text-right font-mono text-xs font-bold text-stone-900">
+                          <td className="py-2 px-3.5 text-right font-mono text-xs font-bold text-stone-900">
                             ₩{item.price.toLocaleString()}
                           </td>
 
                           {/* Status - Soft Pastel glowing pills */}
-                          <td className="py-3 px-4 text-center">
+                          <td className="py-2 px-3.5 text-center">
                             <div className="flex items-center justify-center">
                               {renderStatusBadge(item.status)}
                             </div>
                           </td>
 
                           {/* Manage Column - Edit & Delete Buttons */}
-                          <td className="py-3 px-4 text-center">
+                          <td className="py-2 px-3.5 text-center">
                             <div className="flex items-center justify-center gap-2">
                               <button
                                 onClick={(e) => {
