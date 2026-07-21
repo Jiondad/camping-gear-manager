@@ -412,46 +412,68 @@ export default function App() {
       {/* ============================================================== */}
       <div className="hidden xl:block absolute inset-0 pointer-events-none overflow-hidden z-30 select-none">
         
-        {/* Left Side Stickers */}
-        <div className="absolute left-[2.5%] top-[16%] -rotate-12 bg-[#cc0000] text-white px-5 py-2 font-sans font-black tracking-tighter text-base rounded-md shadow-lg opacity-95 border border-white/20">
+        {/* Left Side Stickers (상단 나침반/로프 아래부터 시작되도록 top 비율 조정) */}
+        <div className="absolute left-[2.5%] top-[40%] -rotate-12 bg-[#cc0000] text-white px-5 py-2 font-sans font-black tracking-tighter text-base rounded-md shadow-lg opacity-95 border border-white/20">
           Coleman
         </div>
-        <div className="absolute left-[3.5%] top-[43%] rotate-6 bg-white text-stone-900 px-4 py-1.5 font-serif font-bold tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-stone-200">
-          * snow peak
+        {/* 스노우피크 스티커 (사실적인 리얼 로고 적용) */}
+        <div className="absolute left-[3.5%] top-[50%] rotate-6 bg-white text-stone-900 px-3.5 py-1.5 rounded-md shadow-lg opacity-95 border border-stone-200 flex flex-col items-center justify-center">
+          <div className="flex items-center gap-1.5 mb-[1px]">
+            {/* 리얼 눈꽃 모양 SVG */}
+            <svg viewBox="0 0 100 100" className="w-[14px] h-[14px] fill-stone-900 select-none">
+              <g transform="translate(50, 50)">
+                <polygon points="-6,-42 6,-42 2,-2 -2,-2" />
+                <polygon points="-6,42 6,42 2,2 -2,2" />
+                <g transform="rotate(60)">
+                  <polygon points="-6,-42 6,-42 2,-2 -2,-2" />
+                  <polygon points="-6,42 6,42 2,2 -2,2" />
+                </g>
+                <g transform="rotate(120)">
+                  <polygon points="-6,-42 6,-42 2,-2 -2,-2" />
+                  <polygon points="-6,42 6,42 2,2 -2,2" />
+                </g>
+              </g>
+            </svg>
+            <span className="font-serif font-black text-[13px] tracking-tighter leading-none select-none scale-x-110 origin-left mt-[1px]">
+              snow peak
+            </span>
+          </div>
+          {/* 하단 미세 레터링 디테일 */}
+          <div className="flex items-center justify-between w-full px-[1px]">
+            <span className="font-sans text-[4.5px] text-stone-800 tracking-tighter select-none scale-x-90 origin-left">outdoor lifestyle creator</span>
+            <span className="font-sans text-[4.5px] text-stone-800 tracking-tighter select-none scale-x-90 origin-right">since 1958</span>
+          </div>
         </div>
-        <div className="absolute left-[1.5%] top-[57%] -rotate-6 bg-black text-white px-5 py-2 font-sans font-black italic tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-stone-800">
+        <div className="absolute left-[1.5%] top-[60%] -rotate-6 bg-black text-white px-5 py-2 font-sans font-black italic tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-stone-800">
           Helinox
         </div>
-        <div className="absolute left-[4%] top-[71%] rotate-12 bg-[#ff5a00] text-white px-4 py-1.5 font-sans font-bold tracking-tight text-xs rounded-md shadow-lg opacity-95">
+        <div className="absolute left-[4%] top-[70%] rotate-12 bg-[#ff5a00] text-white px-4 py-1.5 font-sans font-bold tracking-tight text-xs rounded-md shadow-lg opacity-95">
           MINIMAL WORKS
         </div>
-        {/* NORDISK 스티커 (기존 코드 참고용) */}
-        <div className="absolute left-[2%] top-[86%] -rotate-3 bg-[#e0d6c8] text-stone-800 px-4 py-1.5 font-serif font-bold tracking-widest text-xs rounded-md shadow-lg border border-[#c4b59d] opacity-95 flex items-center gap-1.5">
+        <div className="absolute left-[2%] top-[80%] -rotate-3 bg-[#e0d6c8] text-stone-800 px-4 py-1.5 font-serif font-bold tracking-widest text-xs rounded-md shadow-lg border border-[#c4b59d] opacity-95 flex items-center gap-1.5">
           🐻 NORDISK
         </div>
-
-        {/* 👇 여기에 코베아 스티커를 추가해 주세요 👇 */}
-        <div className="absolute left-[3.5%] top-[94%] rotate-6 bg-[#3b332c] text-[#ff8c00] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-[#ff8c00]/30">
+        <div className="absolute left-[3.5%] top-[90%] rotate-6 bg-[#3b332c] text-[#ff8c00] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-[#ff8c00]/30">
           KOVEA
         </div>
 
-        {/* Right Side Stickers */}
-        <div className="absolute right-[2.5%] top-[25%] rotate-12 bg-white text-[#cc0000] px-4 py-1.5 font-serif font-black tracking-widest text-xs rounded-md shadow-lg border-2 border-[#cc0000] opacity-95">
+        {/* Right Side Stickers (상단 랜턴/머그컵 아래부터 시작되도록 top 비율 조정) */}
+        <div className="absolute right-[2.5%] top-[42%] rotate-12 bg-white text-[#cc0000] px-4 py-1.5 font-serif font-black tracking-widest text-xs rounded-md shadow-lg border-2 border-[#cc0000] opacity-95">
           HILLEBERG
         </div>
-        <div className="absolute right-[4%] top-[40%] -rotate-6 bg-[#006600] text-white px-4 py-1.5 font-sans font-bold tracking-wider text-xs rounded-md shadow-lg opacity-95 flex items-center gap-1.5">
+        <div className="absolute right-[4%] top-[52%] -rotate-6 bg-[#006600] text-white px-4 py-1.5 font-sans font-bold tracking-wider text-xs rounded-md shadow-lg opacity-95 flex items-center gap-1.5">
           🍁 LOGOS
         </div>
-        <div className="absolute right-[1.5%] top-[55%] rotate-3 bg-stone-100 text-stone-800 px-3.5 py-1.5 font-mono font-bold tracking-tighter text-xs rounded-md shadow-lg opacity-95 border border-stone-300">
+        <div className="absolute right-[1.5%] top-[62%] rotate-3 bg-stone-100 text-stone-800 px-3.5 py-1.5 font-mono font-bold tracking-tighter text-xs rounded-md shadow-lg opacity-95 border border-stone-300">
           tent-Mark DESIGNS
         </div>
-        <div className="absolute right-[4.5%] top-[70%] -rotate-12 bg-[#f4e087] text-stone-900 px-4 py-1.5 font-sans font-black tracking-widest text-sm rounded-md shadow-lg opacity-95 flex items-center gap-1.5">
+        <div className="absolute right-[4.5%] top-[72%] -rotate-12 bg-[#f4e087] text-stone-900 px-4 py-1.5 font-sans font-black tracking-widest text-sm rounded-md shadow-lg opacity-95 flex items-center gap-1.5">
           🐰 DOD
         </div>
-        <div className="absolute right-[2%] top-[85%] rotate-6 bg-white text-[#cc0000] px-5 py-2 font-sans font-black tracking-tighter text-base rounded-full shadow-lg border-2 border-[#cc0000] opacity-95 flex items-center gap-1">
+        <div className="absolute right-[2%] top-[82%] rotate-6 bg-white text-[#cc0000] px-5 py-2 font-sans font-black tracking-tighter text-base rounded-full shadow-lg border-2 border-[#cc0000] opacity-95 flex items-center gap-1">
           🐧 CHUMS
         </div>
-        <div className="absolute right-[5%] top-[94%] -rotate-6 bg-black text-[#00a0e9] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border-b-2 border-[#00a0e9]">
+        <div className="absolute right-[5%] top-[92%] -rotate-6 bg-black text-[#00a0e9] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border-b-2 border-[#00a0e9]">
           NEMO
         </div>
       </div>
@@ -623,11 +645,41 @@ export default function App() {
           {/* Coffee line inside (커피 디테일) */}
           <div className="absolute top-1 inset-x-0 h-1 bg-[#4a2e1b]/80" />
           
-          {/* Logo Details (스노우피크 로고 & 레터링) */}
+          {/* Logo Details (스노우피크 리얼 로고 & 레터링) */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pt-2 z-10">
-            <span className="text-zinc-800 text-[26px] font-black leading-none mb-0.5 mt-1 select-none">*</span>
-            <span className="font-serif font-extrabold text-[11px] text-zinc-900 tracking-tighter leading-none select-none">snow peak</span>
-            <span className="font-mono text-[4.5px] text-zinc-700 tracking-widest mt-1.5 font-bold uppercase select-none">Titanium</span>
+            {/* Authentic SVG Asterisk */}
+            <svg viewBox="0 0 100 100" className="w-5 h-5 fill-zinc-800 select-none mb-0.5">
+              <g transform="translate(50, 50)">
+                <polygon points="-6,-42 6,-42 2,-2 -2,-2" />
+                <polygon points="-6,42 6,42 2,2 -2,2" />
+                <g transform="rotate(60)">
+                  <polygon points="-6,-42 6,-42 2,-2 -2,-2" />
+                  <polygon points="-6,42 6,42 2,2 -2,2" />
+                </g>
+                <g transform="rotate(120)">
+                  <polygon points="-6,-42 6,-42 2,-2 -2,-2" />
+                  <polygon points="-6,42 6,42 2,2 -2,2" />
+                </g>
+              </g>
+            </svg>
+            
+            <span className="font-serif font-black text-[11px] text-zinc-900 tracking-tighter leading-none select-none scale-x-110">
+              snow peak
+            </span>
+            
+            {/* 정품 로고 하단 슬로건 디테일 */}
+            <div className="flex items-center justify-between w-[3.5rem] mt-[1.5px] px-[1px]">
+              <span className="font-sans text-[2.5px] text-zinc-800 tracking-tighter select-none scale-x-90 origin-left">outdoor lifestyle creator</span>
+              <span className="font-sans text-[2.5px] text-zinc-800 tracking-tighter select-none scale-x-90 origin-right">since 1958</span>
+            </div>
+
+            {/* Titanium 600 details */}
+            <div className="mt-1 flex flex-col items-center">
+              <span className="font-mono text-[4.5px] text-zinc-700 tracking-[0.2em] font-extrabold select-none mb-[1px]">600</span>
+              <span className="font-sans text-[3px] text-zinc-700 tracking-tighter uppercase select-none mb-[1.5px]">double-wall</span>
+              <span className="font-sans text-[4.5px] text-zinc-900 tracking-widest font-black uppercase select-none">Titanium</span>
+              <span className="font-sans text-[3px] text-zinc-700 tracking-widest uppercase select-none mt-[0.5px]">Japan</span>
+            </div>
           </div>
 
           {/* Floating Steam lines (모락모락 피어나는 김) */}
