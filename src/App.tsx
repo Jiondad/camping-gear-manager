@@ -412,9 +412,29 @@ export default function App() {
       {/* ============================================================== */}
       <div className="hidden xl:block absolute inset-0 pointer-events-none overflow-hidden z-30 select-none">
         
-        {/* Left Side Stickers (상단 나침반/로프 아래부터 시작되도록 top 비율 조정) */}
-        <div className="absolute left-[2.5%] top-[40%] -rotate-12 bg-[#cc0000] text-white px-5 py-2 font-sans font-black tracking-tighter text-base rounded-md shadow-lg opacity-95 border border-white/20">
-          Coleman
+        {/* Coleman 스티커 (정교한 정품 로고) */}
+        <div className="absolute left-[2.5%] top-[40%] -rotate-12 bg-[#cc0000] border-2 border-white rounded-lg px-4 py-2 flex items-center justify-between shadow-xl opacity-95 overflow-hidden select-none -skew-x-6 gap-3">
+          <div className="flex flex-col justify-center px-1">
+            <span className="font-sans italic font-black text-white text-xl tracking-tight leading-none scale-y-110 drop-shadow-sm">
+              Coleman
+            </span>
+            <div className="w-full h-1 bg-white rounded-full mt-1.5 shadow-sm" />
+          </div>
+
+          {/* 원본과 똑 닮은 정교한 타원형 랜턴 심벌 */}
+          <div className="w-7 h-8 bg-white rounded-full flex items-center justify-center border-2 border-[#cc0000] shadow-inner shrink-0 relative">
+            <svg viewBox="0 0 100 100" className="w-5 h-5 fill-[#cc0000]">
+              {/* 상단 꼭지 및 갓 */}
+              <path d="M50 12 C44 12 42 16 42 18 L58 18 C58 16 56 12 50 12 Z" />
+              <path d="M38 18 L62 18 C65 18 66 23 63 26 L37 26 C34 23 35 18 38 18 Z" />
+              {/* 중앙 유리 글로브 (사각형) */}
+              <rect x="40" y="26" width="20" height="22" rx="2" />
+              {/* 하단 연료통 */}
+              <path d="M40 50 L60 50 C63 50 64 54 62 58 L38 58 C36 54 37 50 40 50 Z" />
+              {/* 양옆 빛줄기 (방사형 라인) */}
+              <path d="M26 33 L35 36 M74 33 L65 36 M22 44 L35 44 M78 44 L65 44 M26 55 L35 52 M74 55 L65 52" stroke="#cc0000" strokeWidth="5" strokeLinecap="round" />
+            </svg>
+          </div>
         </div>
         {/* 스노우피크 스티커 (사실적인 리얼 로고 적용) */}
         <div className="absolute left-[3.5%] top-[50%] rotate-6 bg-white text-stone-900 px-3.5 py-1.5 rounded-md shadow-lg opacity-95 border border-stone-200 flex flex-col items-center justify-center">
