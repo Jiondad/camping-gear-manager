@@ -517,8 +517,8 @@ export default function App() {
         </motion.div>
       </div>
 
-        {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
-      <div className="hidden 2xl:flex absolute right-2 xl:right-4 top-12 flex-col items-center gap-4 z-20">
+      {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
+      <div className="hidden 2xl:flex absolute right-10 2xl:right-16 top-12 flex-col items-center gap-4 z-20">
         <motion.div
           whileHover={{ scale: 1.03 }}
           onClick={() => setLanternOn(p => !p)}
