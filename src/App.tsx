@@ -473,9 +473,34 @@ export default function App() {
         <div className="absolute left-[4%] top-[70%] rotate-12 bg-[#ff5a00] text-white px-4 py-1.5 font-sans font-bold tracking-tight text-xs rounded-md shadow-lg opacity-95">
           MINIMAL WORKS
         </div>
-        <div className="absolute left-[2%] top-[80%] -rotate-3 bg-[#e0d6c8] text-stone-800 px-4 py-1.5 font-serif font-bold tracking-widest text-xs rounded-md shadow-lg border border-[#c4b59d] opacity-95 flex items-center gap-1.5">
-          🐻 NORDISK
+        
+        {/* NORDISK 스티커 (정품 로고 스타일 - 라인아트 북극곰과 세로 텍스트) */}
+        <div className="absolute left-[2%] top-[78%] -rotate-3 bg-white border border-stone-200 rounded-md p-2 shadow-lg opacity-95 flex flex-row items-center gap-1.5 select-none h-[4.5rem]">
+          {/* 북극곰 라인아트 SVG */}
+          <svg viewBox="0 0 100 120" className="w-8 h-full text-stone-900" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
+            {/* 등, 머리, 목 실루엣 */}
+            <path d="M 15 105 C 10 65 30 25 55 15 C 65 10 80 15 85 20 C 85 25 75 28 65 25 C 60 25 55 35 55 50" />
+            {/* 앞다리 */}
+            <path d="M 55 50 C 45 70 30 90 20 95 C 15 95 10 90 15 80" />
+            {/* 뒷다리 및 배 */}
+            <path d="M 55 50 C 80 55 95 70 85 100 C 80 105 70 105 65 95 C 60 85 65 70 65 65" />
+            {/* 귀 디테일 */}
+            <path d="M 60 12 L 64 15" strokeWidth="4" />
+            {/* 눈 디테일 */}
+            <path d="M 72 18 L 74 19" strokeWidth="4" />
+          </svg>
+          
+          {/* 세로 방향 NORDISK 텍스트 */}
+          <div className="flex items-center justify-center h-full pt-1">
+            <span 
+              className="font-sans font-black text-stone-900 text-[12px] tracking-[0.25em] uppercase" 
+              style={{ writingMode: 'vertical-rl' }}
+            >
+              Nordisk
+            </span>
+          </div>
         </div>
+
         <div className="absolute left-[3.5%] top-[90%] rotate-6 bg-[#3b332c] text-[#ff8c00] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-[#ff8c00]/30">
           KOVEA
         </div>
