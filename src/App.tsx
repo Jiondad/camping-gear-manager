@@ -474,54 +474,64 @@ export default function App() {
           MINIMAL WORKS
         </div>
         
-        {/* NORDISK 스티커 (정교한 리얼 로고 - 북극곰 라인아트 & 기하학 폰트) */}
-        <div className="absolute left-[2%] top-[78%] -rotate-3 bg-white border border-stone-200 rounded-md p-1.5 shadow-lg opacity-95 flex items-center justify-center select-none w-[5.5rem] h-[5.5rem]">
-          <svg viewBox="0 0 100 100" className="w-full h-full text-stone-900">
-            {/* 🐻 북극곰 실루엣 라인아트 */}
-            <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              {/* 등, 목, 왼쪽 앞다리 */}
-              <path d="M 42 16 C 30 12 15 35 12 60 C 10 75 12 85 14 85 C 16 85 20 80 24 70" />
-              {/* 중앙 오른쪽 앞다리 */}
-              <path d="M 32 45 C 28 60 26 85 28 88 C 30 90 35 90 37 80 C 39 70 41 55 42 50" />
-              {/* 엉덩이 및 오른쪽 뒷다리 */}
-              <path d="M 42 26 C 60 25 72 40 65 70 C 62 80 58 90 55 90 C 52 90 48 85 48 75 C 48 65 48 55 46 45" />
-              {/* 머리 및 코 */}
-              <path d="M 42 16 C 48 14 55 16 60 18 C 62 19 60 22 55 23 C 50 24 45 26 42 26" />
-              {/* 귀, 눈, 입 디테일 */}
-              <path d="M 41 12 C 43 11 45 11 46 14" strokeWidth="1.5" />
-              <path d="M 53 17 L 55 17" strokeWidth="2" />
-              <path d="M 61 21 L 57 22" strokeWidth="1.2" />
-              {/* 발톱 디테일 */}
-              <path d="M 12 85 L 11 88 M 14 86 L 14 89 M 16 85 L 17 88" strokeWidth="1" />
-              <path d="M 28 89 L 27 92 M 31 90 L 31 93 M 34 89 L 35 92" strokeWidth="1" />
-              <path d="M 51 90 L 50 93 M 54 91 L 54 94 M 57 89 L 58 92" strokeWidth="1" />
+        {/* NORDISK 스티커 (하이엔드 리얼 로고 - 유려한 면 처리와 기하학 폰트 완벽 재현) */}
+        <div className="absolute left-[2%] top-[78%] -rotate-3 bg-white border border-stone-200 rounded-md p-2 shadow-lg opacity-95 flex items-center justify-center select-none w-[4.8rem] h-[5.8rem]">
+          <svg viewBox="0 0 100 120" className="w-full h-full text-stone-900 mt-[2px]">
+            
+            {/* 🐻 1. 북극곰 실루엣 (선이 아닌 면으로 조각하여 유려한 볼륨감 형성) */}
+            <g fill="currentColor">
+              {/* 등 & 왼쪽 뒷다리 */}
+              <path d="M 45,17 C 28,18 12,38 10,65 C 9,78 11,88 14,92 C 16,93 19,92 20,88 C 22,78 25,65 30,55 C 35,45 42,32 48,25 C 47,22 46,19 45,17 Z" />
+              {/* 머리, 가슴 & 오른쪽 앞다리 */}
+              <path d="M 48,16 C 54,14 62,16 67,18 C 72,20 78,22 80,24 C 81,25 80,27 77,28 C 74,29 70,28 67,27 C 65,28 66,35 67,42 C 68,52 69,65 65,78 C 63,85 60,91 57,93 C 55,94 52,92 52,89 C 53,82 56,70 56,60 C 56,50 51,42 46,38 C 44,36 43,33 44,30 C 45,25 47,20 48,16 Z" />
+              {/* 중앙 다리 */}
+              <path d="M 37,45 C 33,55 28,72 30,88 C 31,92 34,94 36,93 C 38,92 40,88 40,84 C 40,72 42,58 46,48 C 43,47 40,46 37,45 Z" />
+            </g>
+
+            {/* 🐻 2. 북극곰 디테일 (얼굴, 발톱, 그림자) */}
+            <g fill="none" stroke="currentColor" strokeLinecap="round">
+              {/* 귀 */}
+              <path d="M 60,16 C 62,14 64,15 65,17" strokeWidth="1.5" />
+              {/* 눈 */}
+              <circle cx="70" cy="21" r="0.8" fill="currentColor" stroke="none" />
+              {/* 입 (살짝 벌린 틈새를 흰색 선으로 파냄) */}
+              <path d="M 80,25 L 75,26" stroke="white" strokeWidth="1.2" />
+              
+              {/* 발톱 */}
+              <g strokeWidth="1">
+                <path d="M 12,89 L 10,92 M 15,91 L 14,94 M 18,90 L 19,93" />
+                <path d="M 30,88 L 28,91 M 33,92 L 33,95 M 36,89 L 38,92" />
+                <path d="M 52,89 L 50,92 M 55,91 L 55,94 M 58,88 L 60,91" />
+              </g>
+              
               {/* 바닥 그림자 라인 */}
-              <path d="M 8 89 L 20 89 M 25 93 L 40 93 M 45 93 L 62 93" strokeWidth="1.5" />
+              <path d="M 10,96 L 22,96 M 26,96 L 40,96 M 46,96 L 62,96" strokeWidth="1.5" />
             </g>
-            
-            {/* 🔠 기하학적 NORDISK 텍스트 (90도 회전, 직접 그린 벡터 폰트) */}
-            <g transform="translate(85, 12) rotate(90)" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
+
+            {/* 🔠 3. NORDISK 북유럽 기하학 폰트 (100% 수제 벡터 타이포그래피) */}
+            <g transform="translate(85, 5)" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
               {/* N */}
-              <path d="M 0,10 L 0,0 L 8,10 L 8,0" />
+              <path d="M 2,10 L 2,0 L 8,0 L 8,10" />
               {/* O */}
-              <path d="M 13,0 L 19,0 L 20,1 L 20,9 L 19,10 L 13,10 L 12,9 L 12,1 Z" />
+              <path d="M 2,16 L 8,16 L 8,26 L 2,26 Z" />
               {/* R */}
-              <path d="M 24,10 L 24,0 L 30,0 L 32,2 L 32,5 L 30,6 L 24,6 M 28,6 L 32,10" />
+              <path d="M 2,42 L 2,32 M 2,34 L 8,34 L 8,38 L 5,38" />
               {/* D */}
-              <path d="M 36,10 L 36,0 L 42,0 L 44,2 L 44,8 L 42,10 Z" />
+              <path d="M 8,48 L 8,58 M 8,58 L 2,58 L 2,53 L 8,53" />
               {/* I */}
-              <path d="M 50,0 L 50,10" />
+              <path d="M 5,64 L 5,74" />
               {/* S */}
-              <path d="M 64,1 L 62,0 L 58,0 L 56,1 L 56,4 L 58,5 L 62,5 L 64,6 L 64,9 L 62,10 L 58,10 L 56,9" />
+              <path d="M 8,82 L 2,82 L 2,86 L 8,86 L 8,90 L 2,90" />
               {/* K */}
-              <path d="M 68,0 L 68,10 M 76,0 L 69,5 L 76,10" />
+              <path d="M 2,96 L 2,106 M 8,98 L 2,102 L 8,106" />
             </g>
-            
-            {/* Ⓡ 등록상표 디테일 */}
-            <g transform="translate(70, 88)">
-              <circle cx="0" cy="0" r="2.5" fill="none" stroke="currentColor" strokeWidth="0.6" />
-              <path d="M -0.8,-1 L -0.8,1 M -0.8,-1 L 0.2,-1 C 0.8,-1 0.8,0 0.2,0 L -0.8,0 M 0,0 L 0.8,1" fill="none" stroke="currentColor" strokeWidth="0.4" />
+
+            {/* Ⓡ 4. 등록상표 심벌 */}
+            <g transform="translate(81, 107)">
+              <circle cx="0" cy="0" r="2.5" fill="none" stroke="currentColor" strokeWidth="0.8" />
+              <path d="M -1,-1.5 L -1,1.5 M -1,-1.5 L 1,-1.5 C 2,-1.5 2,0 1,0 L -1,0 M 0,0 L 1,1.5" fill="none" stroke="currentColor" strokeWidth="0.5" />
             </g>
+
           </svg>
         </div>
 
