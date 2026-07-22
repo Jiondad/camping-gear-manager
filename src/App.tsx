@@ -642,7 +642,7 @@ export default function App() {
               <div className="w-4 h-4 rounded-full bg-gradient-to-r from-[#a30b0b] to-[#e31212] border border-[#540202] cursor-pointer shadow-md group-hover:rotate-90 transition-transform duration-300" />
             </div>
             
-            {/* Coleman 정품 스타일 리얼 로고 (랜턴 전용 컴팩트) */}
+            {/* Coleman 정품 스타일 리얼 로고 (랜턴 전용 컴팩트 최종형) */}
             <div className="mt-1 bg-[#cc0000] border border-white rounded-[4px] px-1.5 py-0.5 flex items-center justify-between shadow-sm relative overflow-hidden select-none -skew-x-6 w-[4.4rem]">
               <div className="flex flex-col justify-center">
                 <span className="font-sans italic font-black text-white text-[9.5px] tracking-tight leading-none scale-y-110">
@@ -650,13 +650,15 @@ export default function App() {
                 </span>
                 <div className="w-full h-[0.7px] bg-white rounded-full mt-1" />
               </div>
-              <div className="ml-1 w-4 h-4.5 bg-white rounded-full flex items-center justify-center border border-[#cc0000] shrink-0 shadow-inner">
-                <svg viewBox="0 0 100 100" className="w-3 h-3 fill-[#cc0000]">
-                  <path d="M50 12 C44 12 42 16 42 18 L58 18 C58 16 56 12 50 12 Z" />
-                  <path d="M38 18 L62 18 C65 18 66 23 63 26 L37 26 C34 23 35 18 38 18 Z" />
-                  <rect x="40" y="26" width="20" height="22" rx="2" />
-                  <path d="M40 50 L60 50 C63 50 64 54 62 58 L38 58 C36 54 37 50 40 50 Z" />
-                  <path d="M26 33 L35 36 M74 33 L65 36 M22 44 L35 44 M78 44 L65 44 M26 55 L35 52 M74 55 L65 52" stroke="#cc0000" strokeWidth="6" strokeLinecap="round" />
+              <div className="ml-1 w-4 h-4.5 bg-white rounded-full flex items-center justify-center border border-[#cc0000] shrink-0 shadow-inner overflow-hidden">
+                <svg viewBox="0 0 100 100" className="w-[11px] h-[11px] fill-[#cc0000] mt-[1px]">
+                  <path d="M 46 16 L 54 16 L 54 20 L 46 20 Z" />
+                  <path d="M 42 20 L 58 20 L 62 28 L 38 28 Z" />
+                  <path d="M 32 29 L 68 29 L 66 33 L 34 33 Z" />
+                  <rect x="41" y="35" width="18" height="24" rx="1" />
+                  <rect x="39" y="61" width="22" height="4" rx="1" />
+                  <path d="M 35 67 L 65 67 L 67 84 L 33 84 Z" strokeLinejoin="round" />
+                  <path d="M 16 35 L 28 41 M 84 35 L 72 41 M 12 48 L 26 48 M 88 48 L 74 48 M 16 61 L 28 55 M 84 61 L 72 55" stroke="#cc0000" strokeWidth="4.5" strokeLinecap="round" fill="none" />
                 </svg>
               </div>
             </div>
