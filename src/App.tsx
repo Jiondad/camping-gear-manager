@@ -412,7 +412,7 @@ export default function App() {
       {/* ============================================================== */}
       <div className="hidden xl:block absolute inset-0 pointer-events-none overflow-hidden z-30 select-none">
         
-        {/* Coleman 스티커 (정교한 정품 로고) */}
+        {/* Coleman 스티커 (비율 완벽한 최종 완성형) */}
         <div className="absolute left-[2.5%] top-[40%] -rotate-12 bg-[#cc0000] border-2 border-white rounded-lg px-4 py-2 flex items-center justify-between shadow-xl opacity-95 overflow-hidden select-none -skew-x-6 gap-3">
           <div className="flex flex-col justify-center px-1">
             <span className="font-sans italic font-black text-white text-xl tracking-tight leading-none scale-y-110 drop-shadow-sm">
@@ -421,21 +421,24 @@ export default function App() {
             <div className="w-full h-1 bg-white rounded-full mt-1.5 shadow-sm" />
           </div>
 
-          {/* 🌟 수정된 부분: 중앙 정렬되고 디테일이 강화된 타원형 랜턴 심벌 */}
+          {/* 여백 없이 꽉 찬 타원형 랜턴 심벌 */}
           <div className="w-7 h-8 bg-white rounded-full flex items-center justify-center border-2 border-[#cc0000] shadow-inner shrink-0 relative overflow-hidden">
-            <svg viewBox="0 0 100 100" className="w-5 h-5 fill-[#cc0000] scale-[1.1] mt-[1px]">
-              {/* 상단 꼭지 및 갓 (중앙 배치) */}
-              <path d="M50 13 C44 13 42 17 42 19 L58 19 C58 17 56 13 50 13 Z" />
-              <path d="M39 19 L61 19 C64 19 65 24 62 27 L38 27 C35 24 36 19 39 19 Z" />
-              {/* 중앙 유리 글로브 (사각형) */}
-              <rect x="40" y="27" width="20" height="22" rx="2" />
-              {/* 하단 연료통 */}
-              <path d="M40 51 L60 51 C63 51 64 55 62 59 L38 59 C36 55 37 51 40 51 Z" />
-              {/* 양옆 빛줄기 (방사형 라인 굵게) */}
-              <path d="M27 34 L35 37 M73 34 L65 37 M23 45 L35 45 M77 45 L65 45 M27 56 L35 53 M73 56 L65 53" stroke="#cc0000" strokeWidth="5" strokeLinecap="round" />
+            <svg viewBox="0 0 100 100" className="w-[1.4rem] h-[1.4rem] fill-[#cc0000] mt-[1px]">
+              {/* 상단 꼭지 및 2단 갓 */}
+              <path d="M 46 16 L 54 16 L 54 20 L 46 20 Z" />
+              <path d="M 42 20 L 58 20 L 62 28 L 38 28 Z" />
+              <path d="M 32 29 L 68 29 L 66 33 L 34 33 Z" />
+              {/* 중앙 유리 글로브 */}
+              <rect x="41" y="35" width="18" height="24" rx="1" />
+              {/* 하단 연료통 및 카라 */}
+              <rect x="39" y="61" width="22" height="4" rx="1" />
+              <path d="M 35 67 L 65 67 L 67 84 L 33 84 Z" strokeLinejoin="round" />
+              {/* 양옆 3단 빛줄기 */}
+              <path d="M 16 35 L 28 41 M 84 35 L 72 41 M 12 48 L 26 48 M 88 48 L 74 48 M 16 61 L 28 55 M 84 61 L 72 55" stroke="#cc0000" strokeWidth="4.5" strokeLinecap="round" fill="none" />
             </svg>
           </div>
         </div>
+        
         {/* 스노우피크 스티커 (사실적인 리얼 로고 적용) */}
         <div className="absolute left-[3.5%] top-[50%] rotate-6 bg-white text-stone-900 px-3.5 py-1.5 rounded-md shadow-lg opacity-95 border border-stone-200 flex flex-col items-center justify-center">
           <div className="flex items-center gap-1.5 mb-[1px]">
