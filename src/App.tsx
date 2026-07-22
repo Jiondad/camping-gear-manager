@@ -2,10 +2,8 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { motion } from 'framer-motion';
 // 방금 옮긴 이미지를 직접 불러옵니다
 import nordiskLogo from './image_7c5d5b.png';
-import { motion } from 'framer-motion';
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
