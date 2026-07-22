@@ -4,6 +4,7 @@
  */
 // 방금 옮긴 이미지를 직접 불러옵니다
 import nordiskLogo from './image_7c5d5b.png';
+import asgardTent from './image_7d581e.png';
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -461,6 +462,7 @@ export default function App() {
             <span className="font-serif font-black text-[13px] tracking-tighter leading-none select-none scale-x-110 origin-left mt-[1px]">
               snow peak
             </span>
+
           </div>
           {/* 하단 미세 레터링 디테일 */}
           <div className="flex items-center justify-between w-full px-[1px]">
@@ -524,83 +526,40 @@ export default function App() {
 
 
       {/* Left Decoration: 노르디스크 아스가르드 12.6 텐트 스티커 (클릭 시 흔들림) */}
-        <div className="hidden 2xl:flex absolute left-2 xl:left-4 top-14 z-20">
-          <motion.div 
-            className="bg-[#f4efe6] border-2 border-stone-300 rounded-xl p-3 shadow-xl opacity-95 flex flex-col items-center justify-center select-none w-[10rem] cursor-pointer rotate-[-4deg]"
-            initial={{ rotate: -4 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ 
-              rotate: [-4, 12, -10, 8, -4], 
-              scale: 0.95 
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 10, duration: 0.4 }}
-          >
-            {/* 아스가르드 텐트 이미지 */}
-            <div className="w-full bg-white/60 rounded-lg p-1.5 border border-stone-200/60 shadow-inner overflow-hidden mb-2">
-              <img 
-                src={asgardTent} 
-                alt="Nordisk Asgard 12.6" 
-                className="w-full h-auto object-contain pointer-events-none drop-shadow-sm select-none"
-                draggable="false"
-              />
-            </div>
-            
-            {/* 감성적인 텐트 이름 및 스펙 레터링 */}
-            <div className="flex flex-col items-center text-center">
-              <span className="font-sans font-black text-stone-800 text-xs tracking-wider uppercase">
-                Asgard 12.6
-              </span>
-              <span className="font-mono text-[9px] text-stone-500 tracking-tight mt-0.5">
-                Nordisk Technical Cotton
-              </span>
-            </div>
-          </motion.div>
-        </div>
-        {/* Antique Brass Compass */}
-        <motion.div
+      <div className="hidden 2xl:flex absolute left-2 xl:left-4 top-14 z-20 pointer-events-auto">
+        <motion.div 
+          className="bg-[#f4efe6] border-2 border-stone-300 rounded-xl p-3 shadow-xl opacity-95 flex flex-col items-center justify-center select-none w-[10rem] cursor-pointer rotate-[-4deg]"
+          initial={{ rotate: -4 }}
           whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={spinCompass}
-          className="w-32 h-32 rounded-full border-4 border-amber-600 bg-[#faf8f4] shadow-xl relative cursor-pointer flex items-center justify-center"
-          title="작동하는 골동품 황동 나침반 (클릭시 회전)"
+          whileTap={{ 
+            rotate: [-4, 12, -10, 8, -4], 
+            scale: 0.95 
+          }}
+          transition={{ type: "spring", stiffness: 300, damping: 10, duration: 0.4 }}
         >
-          {/* Inner brass ring */}
-          <div className="absolute inset-1 rounded-full border border-amber-400/40 flex items-center justify-center">
-            {/* Compass marks */}
-            <span className="absolute top-2 text-rose-600 font-mono font-bold text-xs select-none">N</span>
-            <span className="absolute right-2 text-amber-800 font-mono font-bold text-[10px] select-none">E</span>
-            <span className="absolute bottom-2 text-amber-800 font-mono font-bold text-[10px] select-none">S</span>
-            <span className="absolute left-2 text-amber-800 font-mono font-bold text-[10px] select-none">W</span>
-            
-            {/* Tick marks */}
-            <div className="absolute inset-3 border border-dotted border-amber-700/20 rounded-full" />
-
-            {/* Dial background details */}
-            <span className="text-[8px] font-mono text-amber-800/60 absolute top-5">360°</span>
-            <span className="text-[8px] font-mono text-amber-800/60 absolute bottom-5">180°</span>
+          {/* 아스가르드 텐트 이미지 */}
+          <div className="w-full bg-white/60 rounded-lg p-1.5 border border-stone-200/60 shadow-inner overflow-hidden mb-2">
+            <img 
+              src={asgardTent} 
+              alt="Nordisk Asgard 12.6" 
+              className="w-full h-auto object-contain pointer-events-none drop-shadow-sm select-none"
+              draggable="false"
+            />
           </div>
-
-          {/* Magnetic Needle */}
-          <motion.div
-            animate={{ rotate: compassAngle }}
-            transition={{ type: 'spring', stiffness: 50, damping: 12 }}
-            className="w-full h-full absolute inset-0 flex items-center justify-center pointer-events-none"
-          >
-            {/* North pointer (Red) */}
-            <div className="absolute h-10 w-2 bg-gradient-to-t from-rose-500 to-rose-600 rounded-t-full bottom-1/2 origin-bottom shadow-md" style={{ transform: 'translateY(1px)' }}>
-              <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[8px] border-b-rose-700 absolute -top-2 left-1/2 -translate-x-1/2" />
-            </div>
-            {/* South pointer (Slate) */}
-            <div className="absolute h-10 w-2 bg-gradient-to-b from-gray-400 to-gray-500 rounded-b-full top-1/2 origin-top shadow-md" style={{ transform: 'translateY(-1px)' }}>
-              <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[8px] border-t-gray-600 absolute -bottom-2 left-1/2 -translate-x-1/2" />
-            </div>
-            {/* Center Pivot */}
-            <div className="w-3.5 h-3.5 rounded-full bg-yellow-500 border-2 border-stone-800 shadow-lg z-10" />
-          </motion.div>
+          
+          {/* 감성적인 텐트 이름 및 스펙 레터링 */}
+          <div className="flex flex-col items-center text-center">
+            <span className="font-sans font-black text-stone-800 text-xs tracking-wider uppercase">
+              Asgard 12.6
+            </span>
+            <span className="font-mono text-[9px] text-stone-500 tracking-tight mt-0.5">
+              Nordisk Technical Cotton
+            </span>
+          </div>
         </motion.div>
       </div>
 
-        {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
+      {/* Right Decoration: Coleman Classic Red Lantern (Limited Edition) - Volumed Up */}
       <div className="hidden 2xl:flex absolute right-10 2xl:right-16 top-12 flex-col items-center gap-4 z-20">
         <motion.div
           whileHover={{ scale: 1.03 }}
