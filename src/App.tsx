@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { motion } from 'framer-motion';
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -474,10 +474,10 @@ export default function App() {
           MINIMAL WORKS
         </div>
         
-        {/* NORDISK 스티커 (이미지 삽입 & 클릭 시 흔들림 효과) */}
+        {/* NORDISK 스티커 (크기 2배 확대 & 클릭 시 흔들림 애니메이션) */}
         <div className="absolute left-[2%] top-[78%] z-40">
           <motion.div 
-            className="bg-white border border-stone-200 rounded-md p-1.5 shadow-lg opacity-95 flex items-center justify-center select-none w-[4.5rem] cursor-pointer"
+            className="bg-white border border-stone-200 rounded-lg p-2.5 shadow-xl opacity-95 flex items-center justify-center select-none w-[9rem] cursor-pointer"
             initial={{ rotate: -3 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ 
@@ -487,7 +487,7 @@ export default function App() {
             transition={{ type: "spring", stiffness: 300, damping: 10, duration: 0.4 }}
           >
             <img 
-              src="image_7c5d5b.png" 
+              src="/image_7c5d5b.png" 
               alt="Nordisk Logo" 
               className="w-full h-auto pointer-events-none drop-shadow-sm"
               draggable="false"
