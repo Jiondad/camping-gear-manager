@@ -375,10 +375,10 @@ export default function App() {
             
             <div className="space-y-1.5">
               <h3 className="font-sans font-black text-stone-900 text-lg">
-                대장 정보를 불러오는 중입니다...
+                Camping Gears is Coming...
               </h3>
               <p className="text-xs text-stone-500 font-medium">
-                구글 스프레드시트 백엔드와 안전하게 동기화 중입니다. 잠시만 기다려 주세요!
+                Cloud Data와 동기화 중입니다. 잠시만 기다려 주세요!
               </p>
             </div>
           </motion.div>
