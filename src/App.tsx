@@ -421,18 +421,18 @@ export default function App() {
             <div className="w-full h-1 bg-white rounded-full mt-1.5 shadow-sm" />
           </div>
 
-          {/* 원본과 똑 닮은 정교한 타원형 랜턴 심벌 */}
-          <div className="w-7 h-8 bg-white rounded-full flex items-center justify-center border-2 border-[#cc0000] shadow-inner shrink-0 relative">
-            <svg viewBox="0 0 100 100" className="w-5 h-5 fill-[#cc0000]">
-              {/* 상단 꼭지 및 갓 */}
-              <path d="M50 12 C44 12 42 16 42 18 L58 18 C58 16 56 12 50 12 Z" />
-              <path d="M38 18 L62 18 C65 18 66 23 63 26 L37 26 C34 23 35 18 38 18 Z" />
+          {/* 🌟 수정된 부분: 중앙 정렬되고 디테일이 강화된 타원형 랜턴 심벌 */}
+          <div className="w-7 h-8 bg-white rounded-full flex items-center justify-center border-2 border-[#cc0000] shadow-inner shrink-0 relative overflow-hidden">
+            <svg viewBox="0 0 100 100" className="w-5 h-5 fill-[#cc0000] scale-[1.1] mt-[1px]">
+              {/* 상단 꼭지 및 갓 (중앙 배치) */}
+              <path d="M50 13 C44 13 42 17 42 19 L58 19 C58 17 56 13 50 13 Z" />
+              <path d="M39 19 L61 19 C64 19 65 24 62 27 L38 27 C35 24 36 19 39 19 Z" />
               {/* 중앙 유리 글로브 (사각형) */}
-              <rect x="40" y="26" width="20" height="22" rx="2" />
+              <rect x="40" y="27" width="20" height="22" rx="2" />
               {/* 하단 연료통 */}
-              <path d="M40 50 L60 50 C63 50 64 54 62 58 L38 58 C36 54 37 50 40 50 Z" />
-              {/* 양옆 빛줄기 (방사형 라인) */}
-              <path d="M26 33 L35 36 M74 33 L65 36 M22 44 L35 44 M78 44 L65 44 M26 55 L35 52 M74 55 L65 52" stroke="#cc0000" strokeWidth="5" strokeLinecap="round" />
+              <path d="M40 51 L60 51 C63 51 64 55 62 59 L38 59 C36 55 37 51 40 51 Z" />
+              {/* 양옆 빛줄기 (방사형 라인 굵게) */}
+              <path d="M27 34 L35 37 M73 34 L65 37 M23 45 L35 45 M77 45 L65 45 M27 56 L35 53 M73 56 L65 53" stroke="#cc0000" strokeWidth="5" strokeLinecap="round" />
             </svg>
           </div>
         </div>
