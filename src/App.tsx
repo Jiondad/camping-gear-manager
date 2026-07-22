@@ -523,22 +523,39 @@ export default function App() {
       </div>
 
 
-      {/* Left Decoration: Antique Brass Compass & Rope Loop */}
-      <div className="hidden 2xl:flex absolute left-2 xl:left-4 top-16 flex-col items-center gap-6 z-20">
-        {/* Rope Coil */}
-        <div className="relative w-36 h-36 flex items-center justify-center filter drop-shadow-md" title="감성 캠핑 코튼 면로프">
-          <svg className="w-full h-full text-stone-300" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-            <path strokeWidth="3" d="M 50 10 C 20 10 10 30 10 50 C 10 70 30 90 50 90 C 70 90 90 70 90 50 C 90 30 70 10 50 10 Z" strokeDasharray="3,3" />
-            <path strokeWidth="4" d="M 50 14 C 25 14 15 32 15 50 C 15 68 32 86 50 86 C 68 86 85 68 85 50 C 85 32 68 14 50 14 Z" />
-            <path strokeWidth="4" d="M 50 18 C 30 18 20 34 20 50 C 20 66 34 82 50 82 C 66 82 80 66 80 50 C 80 34 66 18 50 18 Z" />
-            <path strokeWidth="6" strokeLinecap="round" d="M 40 45 L 60 55 M 38 52 L 58 62 M 42 38 L 62 48" stroke="currentColor" />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-3 text-center">
-            <Layers className="w-5 h-5 text-stone-400 mb-1" />
-            <span className="font-hand text-[10px] text-stone-500 leading-none">Cotton Rope</span>
-          </div>
+      {/* Left Decoration: 노르디스크 아스가르드 12.6 텐트 스티커 (클릭 시 흔들림) */}
+        <div className="hidden 2xl:flex absolute left-2 xl:left-4 top-14 z-20">
+          <motion.div 
+            className="bg-[#f4efe6] border-2 border-stone-300 rounded-xl p-3 shadow-xl opacity-95 flex flex-col items-center justify-center select-none w-[10rem] cursor-pointer rotate-[-4deg]"
+            initial={{ rotate: -4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ 
+              rotate: [-4, 12, -10, 8, -4], 
+              scale: 0.95 
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 10, duration: 0.4 }}
+          >
+            {/* 아스가르드 텐트 이미지 */}
+            <div className="w-full bg-white/60 rounded-lg p-1.5 border border-stone-200/60 shadow-inner overflow-hidden mb-2">
+              <img 
+                src={asgardTent} 
+                alt="Nordisk Asgard 12.6" 
+                className="w-full h-auto object-contain pointer-events-none drop-shadow-sm select-none"
+                draggable="false"
+              />
+            </div>
+            
+            {/* 감성적인 텐트 이름 및 스펙 레터링 */}
+            <div className="flex flex-col items-center text-center">
+              <span className="font-sans font-black text-stone-800 text-xs tracking-wider uppercase">
+                Asgard 12.6
+              </span>
+              <span className="font-mono text-[9px] text-stone-500 tracking-tight mt-0.5">
+                Nordisk Technical Cotton
+              </span>
+            </div>
+          </motion.div>
         </div>
-
         {/* Antique Brass Compass */}
         <motion.div
           whileHover={{ scale: 1.05 }}
