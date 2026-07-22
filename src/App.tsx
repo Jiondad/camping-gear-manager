@@ -474,58 +474,25 @@ export default function App() {
           MINIMAL WORKS
         </div>
         
-        {/* NORDISK 스티커 (하이엔드 리얼 로고 - 유려한 라인아트와 기하학 폰트 완벽 재현) */}
-        <div className="absolute left-[2%] top-[78%] -rotate-3 bg-white border border-stone-200 rounded-md p-1.5 shadow-lg opacity-95 flex items-center justify-center select-none w-[5.5rem] h-[5.5rem] overflow-hidden">
-          <svg viewBox="0 0 100 100" className="w-full h-full text-stone-900 mt-[1px]">
-            
-            {/* 🐻 북극곰 실루엣 (선으로만 정교하게 조각 - image_33.png 완벽 복원) */}
-            <g fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              {/* 유려한 등, 목, 왼쪽 앞다리 윤곽 */}
-              <path d="M 43 17 C 32 13 16 33 13 58 C 11 73 13 83 15 83 C 17 83 21 78 25 68" />
-              {/* 정교한 중앙 오른쪽 앞다리 */}
-              <path d="M 33 46 C 29 61 27 83 29 86 C 31 88 36 88 38 78 C 40 68 42 53 43 48" />
-              {/* 웅장한 엉덩이 및 오른쪽 뒷다리 윤곽 */}
-              <path d="M 43 27 C 61 26 73 41 66 71 C 63 81 59 91 56 91 C 53 91 49 86 49 76 C 49 66 49 56 47 46" />
-              {/* 정밀한 머리, 코, 입 실루엣 (image_33.png 각도 적용) */}
-              <path d="M 43 17 C 49 15 56 17 61 19 C 63 20 61 23 56 24 C 51 25 46 27 43 27" />
-              {/* 귀, 눈, 입 디테일 */}
-              <path d="M 42 13 C 44 12 46 12 47 15" strokeWidth="1.0" />
-              <path d="M 54 18 L 56 18" strokeWidth="1.5" fill="currentColor" />
-              <path d="M 62 22 L 58 23" strokeWidth="0.8" />
-              {/* 정교한 발톱 디테일 (image_33.png 복원) */}
-              <g strokeWidth="0.8">
-                <path d="M 13 83 L 12 86 M 15 84 L 15 87 M 17 83 L 18 86" />
-                <path d="M 29 87 L 28 90 M 32 88 L 32 91 M 35 87 L 36 90" />
-                <path d="M 52 88 L 51 91 M 55 89 L 55 92 M 58 87 L 59 90" />
-              </g>
-              {/* 유려한 바닥 그림자 라인 */}
-              <path d="M 9 87 L 21 87 M 26 91 L 41 91 M 46 91 L 63 91" strokeWidth="1.2" />
-            </g>
-            
-            {/* 🔠 기하학적 NORDISK 텍스트 (90도 회전, 직접 그린 벡터 폰트 유지) */}
-            <g transform="translate(85, 12) rotate(90)" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter">
-              {/* N */}
-              <path d="M 0,10 L 0,0 L 8,10 L 8,0" />
-              {/* O */}
-              <path d="M 13,0 L 19,0 L 20,1 L 20,9 L 19,10 L 13,10 L 12,9 L 12,1 Z" />
-              {/* R */}
-              <path d="M 24,10 L 24,0 L 30,0 L 32,2 L 32,5 L 30,6 L 24,6 M 28,6 L 32,10" />
-              {/* D */}
-              <path d="M 36,10 L 36,0 L 42,0 L 44,2 L 44,8 L 42,10 Z" />
-              {/* I */}
-              <path d="M 50,0 L 50,10" />
-              {/* S */}
-              <path d="M 64,1 L 62,0 L 58,0 L 56,1 L 56,4 L 58,5 L 62,5 L 64,6 L 64,9 L 62,10 L 58,10 L 56,9" />
-              {/* K */}
-              <path d="M 68,0 L 68,10 M 76,0 L 69,5 L 76,10" />
-            </g>
-            
-            {/* Ⓡ 등록상표 디테일 유지 */}
-            <g transform="translate(70, 88)">
-              <circle cx="0" cy="0" r="2.5" fill="none" stroke="currentColor" strokeWidth="0.6" />
-              <path d="M -0.8,-1 L -0.8,1 M -0.8,-1 L 0.2,-1 C 0.8,-1 0.8,0 0.2,0 L -0.8,0 M 0,0 L 0.8,1" fill="none" stroke="currentColor" strokeWidth="0.4" />
-            </g>
-          </svg>
+        {/* NORDISK 스티커 (이미지 삽입 & 클릭 시 흔들림 효과) */}
+        <div className="absolute left-[2%] top-[78%] z-40">
+          <motion.div 
+            className="bg-white border border-stone-200 rounded-md p-1.5 shadow-lg opacity-95 flex items-center justify-center select-none w-[4.5rem] cursor-pointer"
+            initial={{ rotate: -3 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ 
+              rotate: [-3, -15, 10, -12, 6, -3], 
+              scale: 0.95 
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 10, duration: 0.4 }}
+          >
+            <img 
+              src="image_7c5d5b.png" 
+              alt="Nordisk Logo" 
+              className="w-full h-auto pointer-events-none drop-shadow-sm"
+              draggable="false"
+            />
+          </motion.div>
         </div>
 
         <div className="absolute left-[3.5%] top-[90%] rotate-6 bg-[#3b332c] text-[#ff8c00] px-4 py-1.5 font-sans font-black tracking-widest text-xs rounded-md shadow-lg opacity-95 border border-[#ff8c00]/30">
