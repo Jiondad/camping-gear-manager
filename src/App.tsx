@@ -377,7 +377,7 @@ export default function App() {
             
             <div className="space-y-1.5">
               <h3 className="font-sans font-black text-stone-900 text-lg">
-                Camping Gears is Coming...
+                Camping Gears Are Coming...
               </h3>
               <p className="text-xs text-stone-500 font-medium">
                 Cloud Data와 동기화 중입니다. 잠시만 기다려 주세요!
